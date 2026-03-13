@@ -25,3 +25,6 @@
 
 - 数据库：MySQL
 
+## Figma链接
+
+https://www.figma.com/make/p0ChIS0LuUUnZaqdvVYpA4/1?p=f&t=S0gwgSNRke81aAik-0&preview-route=%2Flogin
