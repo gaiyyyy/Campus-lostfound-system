@@ -111,13 +111,13 @@ graph TD
 
 ```mermaid
 graph TD
-    subgraph 客户端层
+    subgraph 客户端请求
         HTTP[HTTP Requests]
     end
 
     subgraph 安全过滤层
-        CORS[跨域配置 CORS]
-        JWT[JWT认证过滤器]
+        JWT[JWT过滤器]
+        CORS[跨域配置]
     end
 
     subgraph 控制器层
@@ -131,80 +131,96 @@ graph TD
     subgraph 业务逻辑层
         AuthS[认证服务<br/>JWT生成/验证]
         UserS[用户服务<br/>用户业务逻辑]
-        LostS[失物服务<br/>失物业务逻辑]
-        FoundS[招领服务<br/>招领业务逻辑]
-        AdminS[管理服务<br/>系统业务逻辑]
-    end
-
-    subgraph 实体层
-        UserEntity[用户实体 User]
-        LostEntity[失物实体 LostItem]
-        FoundEntity[招领实体 FoundItem]
+        ItemS[物品服务<br/>物品业务逻辑]
     end
 
     subgraph 数据访问层
-        UserRepo[用户Repository]
-        LostRepo[失物Repository]
-        FoundRepo[招领Repository]
-        LogRepo[日志Repository]
-    end
-
-    subgraph 数据存储层
-        MySQL[MySQL数据库]
+        UserR[用户Repository]
+        LostR[失物Repository]
+        FoundR[招领Repository]
+        LogR[日志Repository]
     end
 
     subgraph 工具类层
         JwtUtil[JWT工具类]
         ResponseUtil[响应工具类]
-        DateUtil[日期工具类]
     end
 
-    %% 主请求流向
-    HTTP --> CORS
-    CORS --> JWT
-    JWT --> AuthC
-    JWT --> UserC
-    JWT --> LostC
-    JWT --> FoundC
-    JWT --> AdminC
+    HTTP --> JWT
+    JWT --> CORS
+    CORS --> 控制器层
     
-    %% 控制器到服务
-    AuthC --> AuthS
-    UserC --> UserS
-    LostC --> LostS
-    FoundC --> FoundS
-    AdminC --> AdminS
+    控制器层 --> 业务逻辑层
+    业务逻辑层 --> 数据访问层
+    业务逻辑层 --> 工具类层
     
-    %% 服务到实体
-    AuthS --> UserEntity
-    UserS --> UserEntity
-    LostS --> LostEntity
-    FoundS --> FoundEntity
-    AdminS --> UserEntity
-    AdminS --> LogRepo
-    
-    %% 实体到数据访问
-    UserEntity --> UserRepo
-    LostEntity --> LostRepo
-    FoundEntity --> FoundRepo
-    
-    %% 数据访问到数据库
-    UserRepo --> MySQL
-    LostRepo --> MySQL
-    FoundRepo --> MySQL
-    LogRepo --> MySQL
-    
-    %% 工具类支撑
-    AuthS -.-> JwtUtil
-    AuthS -.-> ResponseUtil
-    UserS -.-> ResponseUtil
-    LostS -.-> DateUtil
-    FoundS -.-> DateUtil
+    数据访问层 --> MySQL[(MySQL数据库)]
 ```
 
+---
 
+## 4. 数据库ER图
 
-## 4. 系统交互流程图（用户发布失物信息）
+```mermaid
+erDiagram
+    USER ||--o{ LOST_ITEM : 发布
+    USER ||--o{ FOUND_ITEM : 发布
+    USER ||--o{ ADMIN_LOG : 操作
+    ADMIN ||--o{ ADMIN_LOG : 记录
+    
+    USER {
+        BIGINT id PK
+        VARCHAR username
+        VARCHAR password
+        VARCHAR contact
+        VARCHAR role
+        DATETIME create_time
+    }
+    
+    LOST_ITEM {
+        BIGINT id PK
+        VARCHAR title
+        VARCHAR category
+        VARCHAR lost_location
+        DATETIME lost_time
+        TEXT description
+        VARCHAR image_url
+        INT status
+        BIGINT user_id FK
+        DATETIME create_time
+    }
+    
+    FOUND_ITEM {
+        BIGINT id PK
+        VARCHAR title
+        VARCHAR category
+        VARCHAR found_location
+        DATETIME found_time
+        TEXT description
+        VARCHAR image_url
+        INT status
+        BIGINT user_id FK
+        DATETIME create_time
+    }
+    
+    ADMIN_LOG {
+        BIGINT id PK
+        BIGINT admin_id FK
+        VARCHAR operation
+        DATETIME create_time
+    }
+    
+    ADMIN {
+        BIGINT id PK
+        VARCHAR username
+        VARCHAR password
+        VARCHAR role
+    }
+```
+
+---
+
+## 5. 系统交互流程图（用户发布失物信息）
 
 ```mermaid
 sequenceDiagram
@@ -244,7 +260,7 @@ sequenceDiagram
 
 ---
 
-## 5. 系统交互流程图（用户搜索招领信息）
+## 6. 系统交互流程图（用户搜索招领信息）
 
 ```mermaid
 sequenceDiagram
@@ -279,7 +295,7 @@ sequenceDiagram
 
 ---
 
-## 6. 系统交互流程图（JWT认证流程）
+## 7. 系统交互流程图（JWT认证流程）
 
 ```mermaid
 sequenceDiagram
@@ -321,7 +337,7 @@ sequenceDiagram
 
 ---
 
-## 7. 部署架构图
+## 8. 部署架构图
 
 ```mermaid
 graph TB
