@@ -63,10 +63,17 @@
             <!-- 操作按钮 -->
             <div class="action-area">
               <el-button-group>
-                <el-tooltip content="返回列表" placement="top">
-                  <el-button type="info" plain @click="goBack">
-                    <el-icon><Back /></el-icon>
-                  </el-button>
+
+                <!-- AI匹配按钮 -->
+
+                <el-tooltip content="AI智能匹配招领信息" placement="top">
+                  <AIMatchButton
+                    item-type="found"
+                    :item-id="foundItem?.id"
+                    :item-title="foundItem?.title"
+                    type="warning"
+                    size="small"
+                  />
                 </el-tooltip>
 
                 <el-tooltip v-if="isOwner" content="编辑信息" placement="top">
@@ -285,11 +292,13 @@ import {
   deleteFoundItem,
   updateFoundStatus,
 } from "../../api/found";
+import AIMatchButton from "../../components/AIMatchButton.vue";
 
 const route = useRoute();
 const router = useRouter();
 const loading = ref(false);
 const foundItem = ref(null);
+const showAIMatchButton = ref(false);
 
 // 计算是否是自己发布的
 const isOwner = computed(() => {
@@ -316,39 +325,39 @@ const getCategoryTagType = (category) => {
 
 // 加载招领详情
 const loadFoundDetail = async () => {
-  const id = route.params.id
+  const id = route.params.id;
   if (!id) {
-    router.push('/found')
-    return
+    router.push("/found");
+    return;
   }
-  
-  loading.value = true
+
+  loading.value = true;
   try {
-    const data = await getFoundDetail(id)
-    
+    const data = await getFoundDetail(id);
+
     // 关键调试：查看后端返回的所有字段
-    console.log('后端返回数据:', data)
-    console.log('数据类型:', typeof data)
-    console.log('所有字段:', Object.keys(data))
-    console.log('contact字段值:', data.contact)
-    console.log('contact字段类型:', typeof data.contact)
-    console.log('contact是否为空:', !data.contact)
-    console.log('contact是否为空字符串:', data.contact === '')
-    console.log('contact是否为null:', data.contact === null)
-    console.log('contact是否为undefined:', data.contact === undefined)
-    
+    console.log("后端返回数据:", data);
+    console.log("数据类型:", typeof data);
+    console.log("所有字段:", Object.keys(data));
+    console.log("contact字段值:", data.contact);
+    console.log("contact字段类型:", typeof data.contact);
+    console.log("contact是否为空:", !data.contact);
+    console.log("contact是否为空字符串:", data.contact === "");
+    console.log("contact是否为null:", data.contact === null);
+    console.log("contact是否为undefined:", data.contact === undefined);
+
     // 尝试直接赋值一个测试值
-    data.testContact = '测试联系方式123'
-    
-    foundItem.value = data
+    data.testContact = "测试联系方式123";
+
+    foundItem.value = data;
   } catch (error) {
-    ElMessage.error('加载失败')
-    router.push('/found')
-    console.error(error)
+    ElMessage.error("加载失败");
+    router.push("/found");
+    console.error(error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 // 格式化时间
 const formatTime = (time) => {
@@ -367,9 +376,9 @@ const formatTime = (time) => {
 const goBack = () => {
   const from = route.query.from;
   const redirect = route.query.redirect;
-  
+
   // 判断来源
-  if (from === 'admin') {
+  if (from === "admin") {
     // 从管理员界面来
     router.push(redirect || "/admin/found-items");
   } else {
