@@ -25,5 +25,10 @@ public interface LostItemRepository extends JpaRepository<LostItem, Long> {
      * 根据用户 + 状态查询
      */
     List<LostItem> findByUserIdAndStatus(Long userId, Integer status);
-}
 
+    // 按创建时间倒序
+    List<LostItem> findAllByOrderByCreateTimeDesc();
+
+    // 统计不同状态的数量
+    long countByStatus(Integer status);
+}

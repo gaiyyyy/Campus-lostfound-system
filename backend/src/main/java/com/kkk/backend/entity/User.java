@@ -1,7 +1,4 @@
-
-
 package com.kkk.backend.entity;
-
 
 import lombok.Data;
 
@@ -30,4 +27,3 @@ public class User {
     @Column(name = "create_time")
     private LocalDateTime createTime;
 }
-
