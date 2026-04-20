@@ -48,6 +48,17 @@
           <!-- 操作按钮 -->
           <div class="action-area" v-if="item.isOwner">
             <el-button-group>
+              <!-- AI匹配按钮 -->
+              <el-tooltip content="AI智能匹配招领信息" placement="top">
+                <AIMatchButton
+                  item-type="lost"
+                  :item-id="item.id"
+                  :item-title="item.title"
+                  type="warning"
+                  size="small"
+                />
+              </el-tooltip>
+
               <el-tooltip content="编辑信息" placement="top">
                 <el-button type="primary" @click="edit">
                   <el-icon><Edit /></el-icon>
@@ -236,12 +247,24 @@
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessage, ElMessageBox } from "element-plus";
+import AIMatchButton from '../../components/AIMatchButton.vue'
 
-import { 
-  Box, Back, Loading, Edit, Check, Delete,
-  InfoFilled, Location, Clock, UserFilled, 
-  Calendar, Document, Picture, Phone  // 添加Phone图标
-} from '@element-plus/icons-vue'
+import {
+  Box,  
+  Back,
+  Loading,
+  Edit,
+  Check,
+  Delete,
+  InfoFilled,
+  Location,
+  Clock,
+  UserFilled,
+  Calendar,
+  Document,
+  Picture,
+  Phone, // 添加Phone图标
+} from "@element-plus/icons-vue";
 import {
   getLostItemDetail,
   updateLostItemStatus,
@@ -292,22 +315,22 @@ const formatTime = (time) => {
 // 返回列表
 const goList = () => {
   // 优先使用路由查询参数中的redirect
-  const redirect = route.query.redirect
+  const redirect = route.query.redirect;
   if (redirect) {
-    router.push(redirect)
-  } else if (route.query.from === 'admin') {
+    router.push(redirect);
+  } else if (route.query.from === "admin") {
     // 如果是从管理员进入的，返回管理员界面
-    router.push('/admin/lost-items')
+    router.push("/admin/lost-items");
   } else {
     // 默认返回用户失物列表
-    const redirect = route.query.redirect
+    const redirect = route.query.redirect;
     if (redirect) {
-      router.push(redirect)
+      router.push(redirect);
     } else {
-      router.push('/lost_item/list')
+      router.push("/lost_item/list");
     }
   }
-}
+};
 
 // 编辑失物信息
 const edit = () => {

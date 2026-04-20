@@ -19,6 +19,7 @@ public class LostItemVO {
     private Integer status;
 
     private String username;
+    private String contact;
 
     private Boolean isOwner;
 
