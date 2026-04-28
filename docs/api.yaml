@@ -1,0 +1,528 @@
+openapi: 3.0.0
+info:
+  title: 失物招领系统 API
+  description: 失物招领系统的RESTful API，包含用户、失物、招领、管理员核心操作
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: 本地开发服务器
+components:
+  schemas:
+
+    # 用户模型
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 用户ID
+        username:
+          type: string
+          description: 用户名
+        role:
+          type: string
+          enum: [user, admin]
+          description: 用户角色
+        token:
+          type: string
+          description: 登录令牌
+      required: [username]
+    # 失物信息模型
+    LostItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 失物ID
+        title:
+          type: string
+          description: 失物标题
+        content:
+          type: string
+          description: 失物详情
+        status:
+          type: string
+          enum: [pending, found, closed]
+          description: 失物状态
+        createTime:
+          type: string
+          format: date-time
+          description: 创建时间
+        userId:
+          type: integer
+          description: 发布用户ID
+      required: [title, content]
+    # 招领信息模型
+    FoundItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 招领ID
+        title:
+          type: string
+          description: 招领标题
+        content:
+          type: string
+          description: 招领详情
+        status:
+          type: string
+          enum: [pending, matched, closed]
+          description: 招领状态
+        createTime:
+          type: string
+          format: date-time
+          description: 创建时间
+        userId:
+          type: integer
+          description: 发布用户ID
+      required: [title, content]
+    # 系统统计模型
+    AdminStats:
+      type: object
+      properties:
+        totalUser:
+          type: integer
+          description: 总用户数
+        totalLost:
+          type: integer
+          description: 总失物数
+        totalFound:
+          type: integer
+
+
+          description: 总招领数
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+
+  - BearerAuth: []
+paths:
+  # 普通用户操作
+  /api/user/update-username:
+    put:
+      summary: 修改用户名
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newUsername:
+                  type: string
+      responses:
+        '200':
+          description: 修改成功
+        '400':
+          description: 参数错误
+        '401':
+          description: 未登录
+  /api/user/update-password:
+    put:
+      summary: 修改密码
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        '200':
+          description: 修改成功
+        '400':
+          description: 原密码错误/参数错误
+        '401':
+          description: 未登录
+  # 失物操作
+  /lost_item:
+    get:
+      summary: 获取失物列表（支持分页/筛选）
+      parameters:
+        - name: page
+          in: query
+          type: integer
+          default: 1
+          description: 页码
+        - name: size
+          in: query
+          type: integer
+          default: 10
+          description: 每页条数
+        - name: status
+          in: query
+          type: string
+          description: 按状态筛选
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LostItem'
+    post:
+      summary: 发布失物信息
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LostItem'
+      responses:
+        '201':
+          description: 发布成功
+        '400':
+          description: 参数错误
+  /lost_item/{id}:
+    get:
+      summary: 获取失物详情
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 获取成功
+        '404':
+          description: 失物不存在
+    put:
+      summary: 编辑失物信息
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LostItem'
+      responses:
+        '200':
+          description: 编辑成功
+        '404':
+          description: 失物不存在
+    delete:
+      summary: 删除失物信息
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 删除成功
+        '404':
+          description: 失物不存在
+  /lost_item/{id}/status:
+    put:
+      summary: 更新失物状态
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+        - name: status
+          in: query
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 更新成功
+        '404':
+          description: 失物不存在
+  # 招领操作
+  /found_item:
+    get:
+      summary: 获取招领列表（支持分页/筛选）
+      parameters:
+        - name: page
+          in: query
+          type: integer
+          default: 1
+        - name: size
+          in: query
+          type: integer
+          default: 10
+        - name: status
+          in: query
+          type: string
+          description: 按状态筛选
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FoundItem'
+    post:
+      summary: 发布招领信息
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoundItem'
+      responses:
+        '201':
+          description: 发布成功
+        '400':
+          description: 参数错误
+  /found_item/{id}:
+    get:
+      summary: 获取招领详情
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 获取成功
+        '404':
+          description: 招领不存在
+    put:
+      summary: 编辑招领信息
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FoundItem'
+      responses:
+        '200':
+          description: 编辑成功
+        '404':
+          description: 招领不存在
+    delete:
+      summary: 删除招领信息
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 删除成功
+        '404':
+          description: 招领不存在
+  /found_item/{id}/status:
+    put:
+      summary: 更新招领状态
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+        - name: status
+          in: query
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 更新成功
+        '404':
+          description: 招领不存在
+  /found_item/my:
+    get:
+      summary: 获取当前用户发布的招领
+      responses:
+        '200':
+          description: 获取成功
+  # 管理员操作
+  /api/admin/stats:
+    get:
+      summary: 获取系统统计数据
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminStats'
+  /api/admin/lost-items:
+    get:
+      summary: 管理员获取所有失物（支持分页/筛选）
+      parameters:
+        - name: page
+          in: query
+          type: integer
+          default: 1
+
+        - name: size
+          in: query
+          type: integer
+          default: 10
+      responses:
+        '200':
+          description: 获取成功
+    delete:
+      summary: 管理员删除失物
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 删除成功
+  /api/admin/found-items:
+    get:
+      summary: 管理员获取所有招领（支持分页/筛选）
+      parameters:
+        - name: page
+          in: query
+          type: integer
+          default: 1
+        - name: size
+          in: query
+          type: integer
+          default: 10
+      responses:
+        '200':
+          description: 获取成功
+    delete:
+      summary: 管理员删除招领
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: 删除成功
+  /api/admin/users:
+    get:
+      summary: 管理员获取所有用户
+      responses:
+        '200':
+          description: 获取成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+  /api/admin/users/{id}/role:
+    put:
+      summary: 管理员更新用户角色
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+        - name: role
+
+          in: query
+          required: true
+          type: string
+          enum: [user, admin]
+
+                                                      responses:
+                                                                        '200':
+          description: 更新成功
+                                                                        '404':
+          description: 用户不存在
+
+# 用户认证接口
+
+```yaml
+/api/auth/register:
+  post:
+    tags:
+      - 用户认证
+    summary: 用户注册
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [username, password, contact]
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+              contact:
+                type: string
+    responses:
+      '201':
+        description: 注册成功
+```
+
+# 用户登录
+
+```yaml
+/api/auth/login:
+  post:
+    tags:
+      - 用户认证
+    summary: 用户登录
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [username, password]
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+    responses:
+      '200':
+        description: 登录成功，返回token
+```
+
+# 用户登出
+
+```yaml
+/api/auth/logout:
+  post:
+    tags:
+      - 用户认证
+    summary: 用户登出
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: 登出成功
+```
+
+

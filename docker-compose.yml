@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # MySQL 数据库
+  mysql:
+    image: mysql:8.0
+    container_name: lostfound-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: lostfound_db
+      MYSQL_USER: lostuser
+      MYSQL_PASSWORD: lostpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # 可选：自动执行初始化 SQL 脚本
+      # - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 5
+
+  # Spring Boot 后端
+  backend:
+    build: ./backend/backend
+    container_name: backend
+    ports:
+      - "8080:8080"
+    environment:
+      # 数据库配置（使用 MySQL）
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/lostfound_db?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: lostuser
+      SPRING_DATASOURCE_PASSWORD: lostpass
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      # JPA 配置
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      # JWT 配置（根据你的项目调整）
+      JWT_SECRET: mySecretKey123456
+      JWT_EXPIRATION: 3600000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
