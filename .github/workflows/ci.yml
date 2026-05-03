@@ -2,13 +2,14 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, master]
   pull_request:
-    branches: [main, develop]
+    branches: [main, develop, master]
+
 jobs:
   backend:
     runs-on: ubuntu-latest
-    
+
     services:
       mysql:
         image: mysql:8.0
@@ -25,19 +26,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      
+
       - name: Run tests with coverage
         run: |
           cd backend/backend
           mvn clean test jacoco:report
-      
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
@@ -46,7 +47,50 @@ jobs:
           flags: backend
 
   frontend:
+    name: Frontend (Node)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      # 前端成员后续补充具体步骤
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run lint
+        working-directory: frontend
+        run: npm run lint --if-present
+
+      - name: Run tests (with coverage)
+        working-directory: frontend
+        run: npm test --if-present
+
+      - name: Upload coverage to Codecov (skip if no token)
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        working-directory: frontend
+        run: |
+          echo "Coverage dir listing:"
+          ls -la coverage || true
+          if [ -z "$CODECOV_TOKEN" ]; then
+            echo "CODECOV_TOKEN not set, skipping Codecov upload."
+          elif [ ! -f coverage/lcov.info ]; then
+            echo "coverage/lcov.info not found, skipping Codecov upload."
+            ls -la coverage || true
+          else
+            echo "Uploading coverage to Codecov..."
+            curl -s https://codecov.io/bash | bash -s -- -t "$CODECOV_TOKEN" -f coverage/lcov.info || echo "Codecov upload failed"
+          fi
+
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage
+          path: frontend/coverage
