@@ -2,16 +2,113 @@ package com.kkk.backend.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.kkk.backend.entity.FoundItem;
-import lombok.Data;
+//import lombok.Data;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
-@Data
+//@Data
 @JsonInclude(JsonInclude.Include.ALWAYS)
 public class FoundItemVO {
     private Long id;
     private String title;
     private String category;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getFoundLocation() {
+        return foundLocation;
+    }
+
+    public void setFoundLocation(String foundLocation) {
+        this.foundLocation = foundLocation;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public LocalDateTime getFoundTime() {
+        return foundTime;
+    }
+
+    public void setFoundTime(LocalDateTime foundTime) {
+        this.foundTime = foundTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getPublisherName() {
+        return publisherName;
+    }
+
+    public void setPublisherName(String publisherName) {
+        this.publisherName = publisherName;
+    }
+
+    public Boolean getOwner() {
+        return isOwner;
+    }
+
+    public void setIsOwner(Boolean isOwner) {
+        this.isOwner = isOwner;
+    }
+
     private String foundLocation;
     private LocalDateTime foundTime;
     private String description;
