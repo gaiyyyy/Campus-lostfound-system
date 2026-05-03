@@ -25,6 +25,7 @@ export default defineConfig({
     
     coverage: {
       provider: 'v8',
+      reporter: ['text', 'html', 'lcov'],
       include: ['src/api/**/*.js', 'src/components/**/*.vue'],
       thresholds: {
         statements: 50,
