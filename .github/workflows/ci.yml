@@ -38,6 +38,10 @@ jobs:
         run: |
           cd backend/backend
           mvn clean test jacoco:report
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/testdb?useSSL=false&serverTimezone=UTC
+          SPRING_DATASOURCE_USERNAME: root
+          SPRING_DATASOURCE_PASSWORD: root
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
