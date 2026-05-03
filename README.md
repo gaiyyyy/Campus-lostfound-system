@@ -2,7 +2,7 @@
 
 [![Backend Coverage](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system/branch/develop/graph/badge.svg?flag=backend)](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system/branch/develop)
 
-[![Frontend Coverage](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system/branch/main/graph/badge.svg?flag=frontend)](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system/branch/main)
+[![Frontend Coverage](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system/branch/main/graph/badge.svg)](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system)
 
 
 
