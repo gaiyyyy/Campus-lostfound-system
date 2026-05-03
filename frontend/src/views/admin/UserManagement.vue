@@ -4,27 +4,49 @@
     <el-header class="main-header">
       <div class="header-content">
         <div class="logo-section">
-          <el-icon :size="24" class="logo-icon"><User /></el-icon>
+          <el-icon
+            :size="24"
+            class="logo-icon"
+          >
+            <User />
+          </el-icon>
           <div class="logo-text">
-            <h1 class="logo-title">用户管理</h1>
-            <p class="logo-subtitle">User Management</p>
+            <h1 class="logo-title">
+              用户管理
+            </h1>
+            <p class="logo-subtitle">
+              User Management
+            </p>
           </div>
         </div>
         <div class="header-tools">
-          <el-tooltip content="返回管理面板" placement="bottom">
-            <el-button type="info" plain circle @click="goBack">
+          <el-tooltip
+            content="返回管理面板"
+            placement="bottom"
+          >
+            <el-button
+              type="info"
+              plain
+              circle
+              @click="goBack"
+            >
               <el-icon><Back /></el-icon>
             </el-button>
           </el-tooltip>
-          <el-tooltip content="刷新数据" placement="bottom">
+          <el-tooltip
+            content="刷新数据"
+            placement="bottom"
+          >
             <el-button 
               type="primary" 
               circle 
-              @click="refresh"
               :loading="loading"
               :disabled="loading"
+              @click="refresh"
             >
-              <el-icon v-if="!loading"><Refresh /></el-icon>
+              <el-icon v-if="!loading">
+                <Refresh />
+              </el-icon>
             </el-button>
           </el-tooltip>
         </div>
@@ -33,7 +55,10 @@
 
     <!-- 主内容区 -->
     <div class="main-content">
-      <el-card class="management-card" shadow="hover">
+      <el-card
+        class="management-card"
+        shadow="hover"
+      >
         <!-- 用户统计 -->
         <div class="stats-section">
           <h3 class="section-title">
@@ -46,9 +71,15 @@
                 <el-icon><User /></el-icon>
               </div>
               <div class="stat-content">
-                <div class="stat-value">{{ userList.length }}</div>
-                <div class="stat-label">总用户数</div>
-                <div class="stat-subtext">系统注册用户总数</div>
+                <div class="stat-value">
+                  {{ userList.length }}
+                </div>
+                <div class="stat-label">
+                  总用户数
+                </div>
+                <div class="stat-subtext">
+                  系统注册用户总数
+                </div>
               </div>
             </div>
             
@@ -57,9 +88,15 @@
                 <el-icon><Setting /></el-icon>
               </div>
               <div class="stat-content">
-                <div class="stat-value">{{ adminCount }}</div>
-                <div class="stat-label">管理员数</div>
-                <div class="stat-subtext">系统管理员数量</div>
+                <div class="stat-value">
+                  {{ adminCount }}
+                </div>
+                <div class="stat-label">
+                  管理员数
+                </div>
+                <div class="stat-subtext">
+                  系统管理员数量
+                </div>
               </div>
             </div>
             
@@ -68,9 +105,15 @@
                 <el-icon><Avatar /></el-icon>
               </div>
               <div class="stat-content">
-                <div class="stat-value">{{ userCount }}</div>
-                <div class="stat-label">普通用户</div>
-                <div class="stat-subtext">普通用户数量</div>
+                <div class="stat-value">
+                  {{ userCount }}
+                </div>
+                <div class="stat-label">
+                  普通用户
+                </div>
+                <div class="stat-subtext">
+                  普通用户数量
+                </div>
               </div>
             </div>
             
@@ -79,9 +122,15 @@
                 <el-icon><PieChart /></el-icon>
               </div>
               <div class="stat-content">
-                <div class="stat-value">{{ adminRatio }}%</div>
-                <div class="stat-label">管理员比例</div>
-                <div class="stat-subtext">管理员/总用户</div>
+                <div class="stat-value">
+                  {{ adminRatio }}%
+                </div>
+                <div class="stat-label">
+                  管理员比例
+                </div>
+                <div class="stat-subtext">
+                  管理员/总用户
+                </div>
               </div>
             </div>
           </div>
@@ -95,33 +144,50 @@
           </h3>
           <div class="table-container">
             <el-table
-              :data="userList"
               v-loading="loading"
+              :data="userList"
               :empty-text="emptyText"
               class="data-table"
               stripe
             >
-              <el-table-column prop="id" label="ID" width="80">
+              <el-table-column
+                prop="id"
+                label="ID"
+                width="80"
+              >
                 <template #default="{ row }">
                   <span class="user-id">#{{ row.id }}</span>
                 </template>
               </el-table-column>
               
-              <el-table-column label="用户信息" min-width="100">
+              <el-table-column
+                label="用户信息"
+                min-width="100"
+              >
                 <template #default="{ row }">
                   <div class="user-info-cell">
-                    <el-avatar :size="36" :style="{ backgroundColor: getAvatarColor(row.id) }">
+                    <el-avatar
+                      :size="36"
+                      :style="{ backgroundColor: getAvatarColor(row.id) }"
+                    >
                       {{ getUsernameInitial(row.username) }}
                     </el-avatar>
                     <div class="user-details">
-                      <div class="user-name">{{ row.username }}</div>
-                      <div class="user-contact">{{ row.contact || '未设置联系方式' }}</div>
+                      <div class="user-name">
+                        {{ row.username }}
+                      </div>
+                      <div class="user-contact">
+                        {{ row.contact || '未设置联系方式' }}
+                      </div>
                     </div>
                   </div>
                 </template>
               </el-table-column>
               
-              <el-table-column label="角色" width="00">
+              <el-table-column
+                label="角色"
+                width="00"
+              >
                 <template #default="{ row }">
                   <el-tag 
                     :type="row.role === 'admin' ? 'danger' : 'primary'"
@@ -134,16 +200,27 @@
                 </template>
               </el-table-column>
               
-              <el-table-column label="注册时间" width="180">
+              <el-table-column
+                label="注册时间"
+                width="180"
+              >
                 <template #default="{ row }">
                   <div class="time-cell">
-                    <div class="time-text">{{ formatDate(row.createTime) }}</div>
-                    <div class="time-subtext">{{ formatTime(row.createTime) }}</div>
+                    <div class="time-text">
+                      {{ formatDate(row.createTime) }}
+                    </div>
+                    <div class="time-subtext">
+                      {{ formatTime(row.createTime) }}
+                    </div>
                   </div>
                 </template>
               </el-table-column>
               
-              <el-table-column label="操作" width="150" fixed="right">
+              <el-table-column
+                label="操作"
+                width="150"
+                fixed="right"
+              >
                 <template #default="{ row }">
                   <div class="action-buttons">
                     <el-tooltip 
@@ -154,11 +231,15 @@
                         :type="row.role === 'admin' ? 'warning' : 'success'"
                         size="small"
                         circle
-                        @click="toggleUserRole(row)"
                         class="action-btn"
+                        @click="toggleUserRole(row)"
                       >
-                        <el-icon v-if="row.role === 'admin'"><User /></el-icon>
-                        <el-icon v-else><Star /></el-icon>
+                        <el-icon v-if="row.role === 'admin'">
+                          <User />
+                        </el-icon>
+                        <el-icon v-else>
+                          <Star />
+                        </el-icon>
                       </el-button>
                     </el-tooltip>
                   </div>

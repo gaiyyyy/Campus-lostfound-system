@@ -4,15 +4,32 @@
     <el-header class="main-header">
       <div class="header-content">
         <div class="logo-section">
-          <el-icon :size="24" class="logo-icon"><Present /></el-icon>
+          <el-icon
+            :size="24"
+            class="logo-icon"
+          >
+            <Present />
+          </el-icon>
           <div class="logo-text">
-            <h1 class="logo-title">招领详情</h1>
-            <p class="logo-subtitle">Found Item Details</p>
+            <h1 class="logo-title">
+              招领详情
+            </h1>
+            <p class="logo-subtitle">
+              Found Item Details
+            </p>
           </div>
         </div>
         <div class="header-tools">
-          <el-tooltip content="返回招领列表" placement="bottom">
-            <el-button type="info" plain circle @click="goBack">
+          <el-tooltip
+            content="返回招领列表"
+            placement="bottom"
+          >
+            <el-button
+              type="info"
+              plain
+              circle
+              @click="goBack"
+            >
               <el-icon><Back /></el-icon>
             </el-button>
           </el-tooltip>
@@ -22,25 +39,54 @@
 
     <!-- 主内容区 -->
     <div class="main-content">
-      <div v-if="loading" class="loading-container">
-        <el-icon class="loading-icon" :size="48"><Loading /></el-icon>
+      <div
+        v-if="loading"
+        class="loading-container"
+      >
+        <el-icon
+          class="loading-icon"
+          :size="48"
+        >
+          <Loading />
+        </el-icon>
         <p>加载中...</p>
       </div>
 
-      <div v-else-if="!foundItem" class="not-found-container">
-        <el-empty description="招领信息不存在" :image-size="200">
-          <el-button type="primary" @click="goBack">返回列表</el-button>
+      <div
+        v-else-if="!foundItem"
+        class="not-found-container"
+      >
+        <el-empty
+          description="招领信息不存在"
+          :image-size="200"
+        >
+          <el-button
+            type="primary"
+            @click="goBack"
+          >
+            返回列表
+          </el-button>
         </el-empty>
       </div>
 
       <div v-else>
-        <el-card class="detail-card" shadow="hover">
+        <el-card
+          class="detail-card"
+          shadow="hover"
+        >
           <!-- 标题和状态 -->
           <div class="header-section">
             <div class="title-area">
               <div class="title-with-icon">
-                <el-icon :size="24" class="title-icon"><Box /></el-icon>
-                <h2 class="item-title">{{ foundItem.title }}</h2>
+                <el-icon
+                  :size="24"
+                  class="title-icon"
+                >
+                  <Box />
+                </el-icon>
+                <h2 class="item-title">
+                  {{ foundItem.title }}
+                </h2>
               </div>
               <div class="item-meta">
                 <el-tag
@@ -63,10 +109,12 @@
             <!-- 操作按钮 -->
             <div class="action-area">
               <el-button-group>
-
                 <!-- AI匹配按钮 -->
 
-                <el-tooltip content="AI智能匹配招领信息" placement="top">
+                <el-tooltip
+                  content="AI智能匹配招领信息"
+                  placement="top"
+                >
                   <AIMatchButton
                     item-type="found"
                     :item-id="foundItem?.id"
@@ -76,8 +124,15 @@
                   />
                 </el-tooltip>
 
-                <el-tooltip v-if="isOwner" content="编辑信息" placement="top">
-                  <el-button type="primary" @click="handleEdit">
+                <el-tooltip
+                  v-if="isOwner"
+                  content="编辑信息"
+                  placement="top"
+                >
+                  <el-button
+                    type="primary"
+                    @click="handleEdit"
+                  >
                     <el-icon><Edit /></el-icon>
                   </el-button>
                 </el-tooltip>
@@ -87,13 +142,23 @@
                   content="标记为已归还"
                   placement="top"
                 >
-                  <el-button type="success" @click="updateStatus(1)">
+                  <el-button
+                    type="success"
+                    @click="updateStatus(1)"
+                  >
                     <el-icon><Check /></el-icon>
                   </el-button>
                 </el-tooltip>
 
-                <el-tooltip v-if="isOwner" content="删除招领" placement="top">
-                  <el-button type="danger" @click="handleDelete">
+                <el-tooltip
+                  v-if="isOwner"
+                  content="删除招领"
+                  placement="top"
+                >
+                  <el-button
+                    type="danger"
+                    @click="handleDelete"
+                  >
                     <el-icon><Delete /></el-icon>
                   </el-button>
                 </el-tooltip>
@@ -114,7 +179,9 @@
                   <el-icon><Location /></el-icon>
                 </div>
                 <div class="info-content">
-                  <div class="info-label">拾到地点</div>
+                  <div class="info-label">
+                    拾到地点
+                  </div>
                   <div class="info-value">
                     {{ foundItem.foundLocation || "未填写" }}
                   </div>
@@ -126,7 +193,9 @@
                   <el-icon><Clock /></el-icon>
                 </div>
                 <div class="info-content">
-                  <div class="info-label">拾到时间</div>
+                  <div class="info-label">
+                    拾到时间
+                  </div>
                   <div class="info-value">
                     {{ formatTime(foundItem.foundTime) }}
                   </div>
@@ -138,7 +207,9 @@
                   <el-icon><UserFilled /></el-icon>
                 </div>
                 <div class="info-content">
-                  <div class="info-label">发布者</div>
+                  <div class="info-label">
+                    发布者
+                  </div>
                   <div class="info-value">
                     {{ foundItem.publisherName || "匿名" }}
                   </div>
@@ -150,7 +221,9 @@
                   <el-icon><Phone /></el-icon>
                 </div>
                 <div class="info-content">
-                  <div class="info-label">联系方式</div>
+                  <div class="info-label">
+                    联系方式
+                  </div>
                   <div class="info-value">
                     {{ foundItem.contact || "暂无" }}
                   </div>
@@ -162,7 +235,9 @@
                   <el-icon><Calendar /></el-icon>
                 </div>
                 <div class="info-content">
-                  <div class="info-label">发布时间</div>
+                  <div class="info-label">
+                    发布时间
+                  </div>
                   <div class="info-value">
                     {{ formatTime(foundItem.createTime) }}
                   </div>
@@ -174,7 +249,9 @@
                   <el-icon><Document /></el-icon>
                 </div>
                 <div class="info-content">
-                  <div class="info-label">物品状态</div>
+                  <div class="info-label">
+                    物品状态
+                  </div>
                   <div class="info-value">
                     <el-tag
                       :type="foundItem.status === 0 ? 'warning' : 'success'"
@@ -200,7 +277,10 @@
           </div>
 
           <!-- 图片展示 -->
-          <div v-if="foundItem.imageUrl" class="image-section">
+          <div
+            v-if="foundItem.imageUrl"
+            class="image-section"
+          >
             <h3 class="section-title">
               <el-icon><Picture /></el-icon>
               物品图片
@@ -252,7 +332,11 @@
                   <p>物品已成功归还给失主</p>
                 </el-card>
               </el-timeline-item>
-              <el-timeline-item v-else type="warning" placement="top">
+              <el-timeline-item
+                v-else
+                type="warning"
+                placement="top"
+              >
                 <el-card>
                   <h4>等待认领</h4>
                   <p>物品仍在等待失主认领</p>

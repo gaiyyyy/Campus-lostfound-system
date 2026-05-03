@@ -1,5 +1,5 @@
 <template>
-  <LostItemNew isEdit />
+  <LostItemNew is-edit />
 </template>
 
 <script setup>

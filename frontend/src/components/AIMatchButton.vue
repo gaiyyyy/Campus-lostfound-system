@@ -16,31 +16,53 @@
       :title="`AI智能匹配结果 - ${itemTitle}`"
       width="500px"
     >
-      <div v-if="loading" class="loading-container">
-        <el-icon class="is-loading"><Loading /></el-icon>
+      <div
+        v-if="loading"
+        class="loading-container"
+      >
+        <el-icon class="is-loading">
+          <Loading />
+        </el-icon>
         <span>AI正在分析中...</span>
       </div>
       
-      <div v-else-if="matchResult" class="match-result">
+      <div
+        v-else-if="matchResult"
+        class="match-result"
+      >
         <el-alert
           :title="matchResult.success ? '匹配分析完成' : '匹配失败'"
           :type="matchResult.success ? 'success' : 'error'"
           :closable="false"
         />
         
-        <div v-if="matchResult.success" class="result-content">
+        <div
+          v-if="matchResult.success"
+          class="result-content"
+        >
           <h4>AI分析结果：</h4>
-          <div class="ai-response">{{ matchResult.aiResponse }}</div>
+          <div class="ai-response">
+            {{ matchResult.aiResponse }}
+          </div>
         </div>
         
-        <div v-else class="error-message">
+        <div
+          v-else
+          class="error-message"
+        >
           {{ matchResult.message }}
         </div>
       </div>
       
       <template #footer>
-        <el-button @click="dialogVisible = false">关闭</el-button>
-        <el-button type="primary" @click="handleMatch" :loading="loading">
+        <el-button @click="dialogVisible = false">
+          关闭
+        </el-button>
+        <el-button
+          type="primary"
+          :loading="loading"
+          @click="handleMatch"
+        >
           重新匹配
         </el-button>
       </template>

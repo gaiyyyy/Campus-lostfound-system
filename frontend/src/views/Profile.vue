@@ -2,7 +2,9 @@
   <el-container class="profile-container">
     <!-- Header -->
     <el-header class="header">
-      <div class="logo">校园失物招领平台</div>
+      <div class="logo">
+        校园失物招领平台
+      </div>
 
       <div class="header-right">
         <el-dropdown>
@@ -12,59 +14,103 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item @click="showChangeUsername = true"
-                >修改用户名</el-dropdown-item
+              <el-dropdown-item @click="showChangeUsername = true">
+                修改用户名
+              </el-dropdown-item>
+              <el-dropdown-item @click="showChangePassword = true">
+                修改密码
+              </el-dropdown-item>
+              <el-dropdown-item
+                divided
+                @click="logout"
               >
-              <el-dropdown-item @click="showChangePassword = true"
-                >修改密码</el-dropdown-item
-              >
-              <el-dropdown-item divided @click="logout">
                 退出登录
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
 
-        <el-button class="home-btn" @click="goHome">返回首页</el-button>
+        <el-button
+          class="home-btn"
+          @click="goHome"
+        >
+          返回首页
+        </el-button>
       </div>
     </el-header>
 
     <!-- 修改用户名对话框 -->
-    <el-dialog v-model="showChangeUsername" title="修改用户名">
+    <el-dialog
+      v-model="showChangeUsername"
+      title="修改用户名"
+    >
       <el-form>
         <el-form-item label="新用户名">
           <el-input v-model="usernameForm.newUsername" />
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="showChangeUsername = false">取消</el-button>
-        <el-button type="primary" @click="submitChangeUsername">保存</el-button>
+        <el-button @click="showChangeUsername = false">
+          取消
+        </el-button>
+        <el-button
+          type="primary"
+          @click="submitChangeUsername"
+        >
+          保存
+        </el-button>
       </template>
     </el-dialog>
 
     <!-- 修改密码对话框 -->
-    <el-dialog v-model="showChangePassword" title="修改密码">
+    <el-dialog
+      v-model="showChangePassword"
+      title="修改密码"
+    >
       <el-form>
         <el-form-item label="旧密码">
-          <el-input v-model="passwordForm.oldPassword" type="password" />
+          <el-input
+            v-model="passwordForm.oldPassword"
+            type="password"
+          />
         </el-form-item>
         <el-form-item label="新密码">
-          <el-input v-model="passwordForm.newPassword" type="password" />
+          <el-input
+            v-model="passwordForm.newPassword"
+            type="password"
+          />
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="showChangePassword = false">取消</el-button>
-        <el-button type="primary" @click="submitChangePassword">保存</el-button>
+        <el-button @click="showChangePassword = false">
+          取消
+        </el-button>
+        <el-button
+          type="primary"
+          @click="submitChangePassword"
+        >
+          保存
+        </el-button>
       </template>
     </el-dialog>
 
     <!-- Main -->
     <el-container>
       <!-- Sidebar -->
-      <el-aside width="220px" class="aside">
-        <el-menu :default-active="activeMenu" @select="handleMenuSelect">
-          <el-menu-item index="lost"> 我发布的失物 </el-menu-item>
-          <el-menu-item index="found"> 我发布的招领 </el-menu-item>
+      <el-aside
+        width="220px"
+        class="aside"
+      >
+        <el-menu
+          :default-active="activeMenu"
+          @select="handleMenuSelect"
+        >
+          <el-menu-item index="lost">
+            我发布的失物
+          </el-menu-item>
+          <el-menu-item index="found">
+            我发布的招领
+          </el-menu-item>
         </el-menu>
       </el-aside>
 
@@ -73,29 +119,69 @@
         <!-- 我发布的失物 -->
         <div v-if="activeMenu === 'lost'">
           <div class="section-header">
-            <h2 style="margin: 0">我发布的失物</h2>
-            <el-tag type="info" size="small">共 {{ lostList.length }} 条记录</el-tag>
+            <h2 style="margin: 0">
+              我发布的失物
+            </h2>
+            <el-tag
+              type="info"
+              size="small"
+            >
+              共 {{ lostList.length }} 条记录
+            </el-tag>
           </div>
 
-          <el-table :data="lostList" border stripe v-loading="loading" class="data-table">
-            <el-table-column prop="title" label="物品名称" min-width="180" />
-            <el-table-column prop="category" label="类别" width="100">
+          <el-table
+            v-loading="loading"
+            :data="lostList"
+            border
+            stripe
+            class="data-table"
+          >
+            <el-table-column
+              prop="title"
+              label="物品名称"
+              min-width="180"
+            />
+            <el-table-column
+              prop="category"
+              label="类别"
+              width="100"
+            >
               <template #default="{ row }">
-                <el-tag size="small">{{ row.category }}</el-tag>
+                <el-tag size="small">
+                  {{ row.category }}
+                </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="lostLocation" label="丢失地点" width="120" />
-            <el-table-column prop="lostTime" label="丢失时间" width="150" />
+            <el-table-column
+              prop="lostLocation"
+              label="丢失地点"
+              width="120"
+            />
+            <el-table-column
+              prop="lostTime"
+              label="丢失时间"
+              width="150"
+            />
 
-            <el-table-column label="状态" width="100">
+            <el-table-column
+              label="状态"
+              width="100"
+            >
               <template #default="{ row }">
-                <el-tag :type="row.status === 0 ? 'warning' : 'success'" size="small">
+                <el-tag
+                  :type="row.status === 0 ? 'warning' : 'success'"
+                  size="small"
+                >
                   {{ row.status === 0 ? "未找回" : "已找回" }}
                 </el-tag>
               </template>
             </el-table-column>
 
-            <el-table-column label="操作" width="200">
+            <el-table-column
+              label="操作"
+              width="200"
+            >
               <template #default="{ row }">
                 <div class="action-buttons">
                   <el-button
@@ -129,34 +215,78 @@
         <!-- 我发布的招领 -->
         <div v-else>
           <div class="section-header">
-            <h2 style="margin: 0">我发布的招领</h2>
-            <el-tag type="info" size="small">共 {{ foundList.length }} 条记录</el-tag>
+            <h2 style="margin: 0">
+              我发布的招领
+            </h2>
+            <el-tag
+              type="info"
+              size="small"
+            >
+              共 {{ foundList.length }} 条记录
+            </el-tag>
           </div>
 
-          <el-table :data="foundList" border stripe v-loading="foundLoading" class="data-table">
-            <el-table-column prop="title" label="物品名称" min-width="180" />
-            <el-table-column prop="category" label="类别" width="100">
+          <el-table
+            v-loading="foundLoading"
+            :data="foundList"
+            border
+            stripe
+            class="data-table"
+          >
+            <el-table-column
+              prop="title"
+              label="物品名称"
+              min-width="180"
+            />
+            <el-table-column
+              prop="category"
+              label="类别"
+              width="100"
+            >
               <template #default="{ row }">
-                <el-tag size="small">{{ row.category }}</el-tag>
+                <el-tag size="small">
+                  {{ row.category }}
+                </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="foundLocation" label="拾到地点" width="120" />
-            <el-table-column prop="foundTime" label="拾到时间" width="150" />
+            <el-table-column
+              prop="foundLocation"
+              label="拾到地点"
+              width="120"
+            />
+            <el-table-column
+              prop="foundTime"
+              label="拾到时间"
+              width="150"
+            />
 
-            <el-table-column label="状态" width="100">
+            <el-table-column
+              label="状态"
+              width="100"
+            >
               <template #default="{ row }">
-                <el-tag :type="row.status === 0 ? 'warning' : 'success'" size="small">
+                <el-tag
+                  :type="row.status === 0 ? 'warning' : 'success'"
+                  size="small"
+                >
                   {{ row.status === 0 ? "待认领" : "已归还" }}
                 </el-tag>
               </template>
             </el-table-column>
 
-            <el-table-column label="操作" width="200">
+            <el-table-column
+              label="操作"
+              width="200"
+            >
               <template #default="{ row }">
                 <div class="action-buttons">
                   <el-button
                    
-                    size="small" type="primary" @click="editFound(row.id)" > 编辑
+                    size="small"
+                    type="primary"
+                    @click="editFound(row.id)"
+                  >
+                    编辑
                   </el-button>
 
                   <el-button

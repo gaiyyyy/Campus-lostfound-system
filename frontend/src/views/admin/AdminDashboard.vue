@@ -4,27 +4,49 @@
     <el-header class="main-header">
       <div class="header-content">
         <div class="logo-section">
-          <el-icon :size="24" class="logo-icon"><Setting /></el-icon>
+          <el-icon
+            :size="24"
+            class="logo-icon"
+          >
+            <Setting />
+          </el-icon>
           <div class="logo-text">
-            <h1 class="logo-title">系统管理面板</h1>
-            <p class="logo-subtitle">Administrator Dashboard</p>
+            <h1 class="logo-title">
+              系统管理面板
+            </h1>
+            <p class="logo-subtitle">
+              Administrator Dashboard
+            </p>
           </div>
         </div>
         <div class="header-tools">
-          <el-tooltip content="返回首页" placement="bottom">
-            <el-button type="info" plain circle @click="goHome">
+          <el-tooltip
+            content="返回首页"
+            placement="bottom"
+          >
+            <el-button
+              type="info"
+              plain
+              circle
+              @click="goHome"
+            >
               <el-icon><HomeFilled /></el-icon>
             </el-button>
           </el-tooltip>
-          <el-tooltip content="刷新统计数据" placement="bottom">
+          <el-tooltip
+            content="刷新统计数据"
+            placement="bottom"
+          >
             <el-button 
               type="primary" 
               circle 
-              @click="refreshStats"
               :loading="loading"
               :disabled="loading"
+              @click="refreshStats"
             >
-              <el-icon v-if="!loading"><Refresh /></el-icon>
+              <el-icon v-if="!loading">
+                <Refresh />
+              </el-icon>
             </el-button>
           </el-tooltip>
         </div>
@@ -33,7 +55,10 @@
 
     <!-- 主内容区 -->
     <div class="main-content">
-      <el-card class="dashboard-card" shadow="hover">
+      <el-card
+        class="dashboard-card"
+        shadow="hover"
+      >
         <!-- 系统概览 -->
         <div class="overview-section">
           <h2 class="section-title">
@@ -46,8 +71,12 @@
                 <el-icon><User /></el-icon>
               </div>
               <div class="stat-content">
-                <div class="stat-value">{{ stats.totalUsers || 0 }}</div>
-                <div class="stat-label">总用户数</div>
+                <div class="stat-value">
+                  {{ stats.totalUsers || 0 }}
+                </div>
+                <div class="stat-label">
+                  总用户数
+                </div>
                 <div class="stat-subtext">
                   <span class="admin-count">{{ stats.adminUsers || 0 }} 个管理员</span>
                 </div>
@@ -59,8 +88,12 @@
                 <el-icon><Box /></el-icon>
               </div>
               <div class="stat-content">
-                <div class="stat-value">{{ stats.totalLostItems || 0 }}</div>
-                <div class="stat-label">失物总数</div>
+                <div class="stat-value">
+                  {{ stats.totalLostItems || 0 }}
+                </div>
+                <div class="stat-label">
+                  失物总数
+                </div>
                 <div class="stat-subtext">
                   <span class="pending">{{ stats.pendingLostItems || 0 }} 未找回</span>
                   <span class="resolved">{{ stats.resolvedLostItems || 0 }} 已找回</span>
@@ -73,8 +106,12 @@
                 <el-icon><Present /></el-icon>
               </div>
               <div class="stat-content">
-                <div class="stat-value">{{ stats.totalFoundItems || 0 }}</div>
-                <div class="stat-label">招领总数</div>
+                <div class="stat-value">
+                  {{ stats.totalFoundItems || 0 }}
+                </div>
+                <div class="stat-label">
+                  招领总数
+                </div>
                 <div class="stat-subtext">
                   <span class="pending">{{ stats.pendingFoundItems || 0 }} 待认领</span>
                   <span class="resolved">{{ stats.resolvedFoundItems || 0 }} 已归还</span>
@@ -87,8 +124,12 @@
                 <el-icon><Monitor /></el-icon>
               </div>
               <div class="stat-content">
-                <div class="stat-value">{{ stats.adminUsers || 0 }}</div>
-                <div class="stat-label">管理员数</div>
+                <div class="stat-value">
+                  {{ stats.adminUsers || 0 }}
+                </div>
+                <div class="stat-label">
+                  管理员数
+                </div>
                 <div class="stat-subtext">
                   <span class="ratio">{{ calculateAdminRatio() }}% 管理员比例</span>
                 </div>
@@ -107,45 +148,57 @@
             <el-button 
               type="primary" 
               size="large" 
-              @click="goToLostManagement" 
-              class="management-btn"
+              class="management-btn" 
+              @click="goToLostManagement"
             >
               <template #icon>
                 <el-icon><Box /></el-icon>
               </template>
               <div class="btn-content">
-                <div class="btn-title">失物管理</div>
-                <div class="btn-subtitle">管理失物信息</div>
+                <div class="btn-title">
+                  失物管理
+                </div>
+                <div class="btn-subtitle">
+                  管理失物信息
+                </div>
               </div>
             </el-button>
             
             <el-button 
               type="success" 
               size="large" 
-              @click="goToFoundManagement" 
-              class="management-btn"
+              class="management-btn" 
+              @click="goToFoundManagement"
             >
               <template #icon>
                 <el-icon><Present /></el-icon>
               </template>
               <div class="btn-content">
-                <div class="btn-title">招领管理</div>
-                <div class="btn-subtitle">管理招领信息</div>
+                <div class="btn-title">
+                  招领管理
+                </div>
+                <div class="btn-subtitle">
+                  管理招领信息
+                </div>
               </div>
             </el-button>
             
             <el-button 
               type="info" 
               size="large" 
-              @click="goToUserManagement" 
-              class="management-btn"
+              class="management-btn" 
+              @click="goToUserManagement"
             >
               <template #icon>
                 <el-icon><User /></el-icon>
               </template>
               <div class="btn-content">
-                <div class="btn-title">用户管理</div>
-                <div class="btn-subtitle">管理用户信息</div>
+                <div class="btn-title">
+                  用户管理
+                </div>
+                <div class="btn-subtitle">
+                  管理用户信息
+                </div>
               </div>
             </el-button>
           </div>
