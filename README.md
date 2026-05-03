@@ -1,8 +1,8 @@
-[![CI](https://github.com/gaiyyyy/Campus-lostfound-system/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/gaiyyyy/Campus-lostfound-system/actions?query=branch%3Adevelop)
+[![CI](https://github.com/gaiyyyy/Campus-lostfound-system/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/gaiyyyy/Campus-lostfound-system/actions?query=branch%3Amain)
 
 [![Backend Coverage](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system/branch/develop/graph/badge.svg?flag=backend)](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system/branch/develop)
 
-[![Frontend Coverage](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system/branch/develop/graph/badge.svg?flag=frontend)](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system/branch/develop)
+[![Frontend Coverage](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system/branch/main/graph/badge.svg)](https://codecov.io/gh/gaiyyyy/Campus-lostfound-system)
 
 
 
