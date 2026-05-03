@@ -8,6 +8,7 @@ servers:
     description: 本地开发服务器
 components:
   schemas:
+
     # 用户模型
     User:
       type: object
@@ -88,6 +89,8 @@ components:
           description: 总失物数
         totalFound:
           type: integer
+
+
           description: 总招领数
   securitySchemes:
     BearerAuth:
@@ -95,6 +98,7 @@ components:
       scheme: bearer
       bearerFormat: JWT
 security:
+
   - BearerAuth: []
 paths:
   # 普通用户操作
@@ -373,6 +377,7 @@ paths:
           in: query
           type: integer
           default: 1
+
         - name: size
           in: query
           type: integer
@@ -441,12 +446,83 @@ paths:
           required: true
           type: integer
         - name: role
+
           in: query
           required: true
           type: string
           enum: [user, admin]
-      responses:
-        '200':
+
+                                                      responses:
+                                                                        '200':
           description: 更新成功
-        '404':
+                                                                        '404':
           description: 用户不存在
+
+# 用户认证接口
+
+```yaml
+/api/auth/register:
+  post:
+    tags:
+      - 用户认证
+    summary: 用户注册
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [username, password, contact]
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+              contact:
+                type: string
+    responses:
+      '201':
+        description: 注册成功
+```
+
+# 用户登录
+
+```yaml
+/api/auth/login:
+  post:
+    tags:
+      - 用户认证
+    summary: 用户登录
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [username, password]
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+    responses:
+      '200':
+        description: 登录成功，返回token
+```
+
+# 用户登出
+
+```yaml
+/api/auth/logout:
+  post:
+    tags:
+      - 用户认证
+    summary: 用户登出
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: 登出成功
+```
+
+
