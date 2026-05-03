@@ -2,11 +2,11 @@ package com.kkk.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+//import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+//@Data
 @Entity
 @Table(name = "found_item")
 public class FoundItem {
@@ -16,6 +16,102 @@ public class FoundItem {
 
     @Column(name = "title", nullable = false, length = 100)
     private String title;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getFoundLocation() {
+        return foundLocation;
+    }
+
+    public void setFoundLocation(String foundLocation) {
+        this.foundLocation = foundLocation;
+    }
+
+    public LocalDateTime getFoundTime() {
+        return foundTime;
+    }
+
+    public void setFoundTime(LocalDateTime foundTime) {
+        this.foundTime = foundTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getPublisherName() {
+        return publisherName;
+    }
+
+    public void setPublisherName(String publisherName) {
+        this.publisherName = publisherName;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
 
     @Column(name = "category", length = 50)
     private String category;
