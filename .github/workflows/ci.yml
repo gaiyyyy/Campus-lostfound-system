@@ -37,11 +37,13 @@ jobs:
       - name: Run tests with coverage
         run: |
           cd backend/backend
-          mvn clean test jacoco:report
+          mvn clean test jacoco:report -e -X
         env:
-          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/testdb?useSSL=false&serverTimezone=UTC
-          SPRING_DATASOURCE_USERNAME: root
-          SPRING_DATASOURCE_PASSWORD: root
+          SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb;MODE=MySQL
+          SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
+          SPRING_DATASOURCE_USERNAME: sa
+          SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
+          SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.H2Dialect
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

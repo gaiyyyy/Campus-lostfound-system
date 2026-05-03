@@ -9,3 +9,15 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: false
+  main:
+    allow-bean-definition-overriding: true
+
+# 禁用 Security 可能引起的问题
+security:
+  basic:
+    enabled: false
+
+management:
+  health:
+    db:
+      enabled: false
