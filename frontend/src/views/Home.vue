@@ -4,42 +4,69 @@
     <el-header class="main-header">
       <div class="header-content">
         <div class="logo-section">
-          <el-icon :size="24" class="logo-icon"><Box /></el-icon>
+          <el-icon
+            :size="24"
+            class="logo-icon"
+          >
+            <Box />
+          </el-icon>
           <div class="logo-text">
-            <h1 class="logo-title">校园失物招领平台</h1>
-            <p class="logo-subtitle">Lost & Found Campus Platform</p>
+            <h1 class="logo-title">
+              校园失物招领平台
+            </h1>
+            <p class="logo-subtitle">
+              Lost & Found Campus Platform
+            </p>
           </div>
         </div>
         <div class="user-section">
-          <el-dropdown trigger="click" placement="bottom-end">
+          <el-dropdown
+            trigger="click"
+            placement="bottom-end"
+          >
             <div class="user-profile">
               <div class="user-avatar">
-                <el-icon :size="20"><UserFilled /></el-icon>
+                <el-icon :size="20">
+                  <UserFilled />
+                </el-icon>
               </div>
               <div class="user-info">
-                <div class="user-name">{{ usernameDisplay }}</div>
-                <div class="user-role" :class="{ 'admin-role': isAdmin }">
+                <div class="user-name">
+                  {{ usernameDisplay }}
+                </div>
+                <div
+                  class="user-role"
+                  :class="{ 'admin-role': isAdmin }"
+                >
                   {{ isAdmin ? '管理员' : '普通用户' }}
                 </div>
               </div>
-              <el-icon class="dropdown-icon"><ArrowDown /></el-icon>
+              <el-icon class="dropdown-icon">
+                <ArrowDown />
+              </el-icon>
             </div>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item @click="goProfile" class="dropdown-item">
+                <el-dropdown-item
+                  class="dropdown-item"
+                  @click="goProfile"
+                >
                   <el-icon><User /></el-icon>
                   <span>个人中心</span>
                 </el-dropdown-item>
                 <el-dropdown-item 
                   v-if="isAdmin" 
-                  @click="goAdmin" 
-                  class="dropdown-item admin-item"
+                  class="dropdown-item admin-item" 
+                  @click="goAdmin"
                 >
                   <el-icon><Setting /></el-icon>
                   <span>系统管理</span>
                 </el-dropdown-item>
                 <el-dropdown-menu divided>
-                  <el-dropdown-item @click="logout" class="dropdown-item logout-item">
+                  <el-dropdown-item
+                    class="dropdown-item logout-item"
+                    @click="logout"
+                  >
                     <el-icon><SwitchButton /></el-icon>
                     <span>退出登录</span>
                   </el-dropdown-item>
@@ -53,15 +80,24 @@
 
     <!-- 主内容区 -->
     <div class="main-content">
-      <el-card class="welcome-card" shadow="hover">
+      <el-card
+        class="welcome-card"
+        shadow="hover"
+      >
         <div class="welcome-content">
           <div class="welcome-header">
             <div class="welcome-icon">
-              <el-icon :size="48"><Bell /></el-icon>
+              <el-icon :size="48">
+                <Bell />
+              </el-icon>
             </div>
             <div class="welcome-text">
-              <h2 class="welcome-title">欢迎回来，{{ usernameDisplay.split('(')[0].trim() }}！</h2>
-              <p class="welcome-subtitle">快速访问失物与招领信息，让物品尽快找到主人</p>
+              <h2 class="welcome-title">
+                欢迎回来，{{ usernameDisplay.split('(')[0].trim() }}！
+              </h2>
+              <p class="welcome-subtitle">
+                快速访问失物与招领信息，让物品尽快找到主人
+              </p>
             </div>
           </div>
 
@@ -70,30 +106,38 @@
               <el-button 
                 type="primary" 
                 size="large" 
-                @click="goLostList" 
-                class="action-btn"
+                class="action-btn" 
+                @click="goLostList"
               >
                 <template #icon>
                   <el-icon><Search /></el-icon>
                 </template>
                 <div class="btn-content">
-                  <div class="btn-title">查看失物信息</div>
-                  <div class="btn-subtitle">寻找丢失物品</div>
+                  <div class="btn-title">
+                    查看失物信息
+                  </div>
+                  <div class="btn-subtitle">
+                    寻找丢失物品
+                  </div>
                 </div>
               </el-button>
               
               <el-button 
                 type="success" 
                 size="large" 
-                @click="goFoundList" 
-                class="action-btn"
+                class="action-btn" 
+                @click="goFoundList"
               >
                 <template #icon>
                   <el-icon><View /></el-icon>
                 </template>
                 <div class="btn-content">
-                  <div class="btn-title">查看招领信息</div>
-                  <div class="btn-subtitle">认领拾到物品</div>
+                  <div class="btn-title">
+                    查看招领信息
+                  </div>
+                  <div class="btn-subtitle">
+                    认领拾到物品
+                  </div>
                 </div>
               </el-button>
               
@@ -101,15 +145,19 @@
                 v-if="isAdmin" 
                 type="warning" 
                 size="large" 
-                @click="goAdmin" 
-                class="action-btn"
+                class="action-btn" 
+                @click="goAdmin"
               >
                 <template #icon>
                   <el-icon><Setting /></el-icon>
                 </template>
                 <div class="btn-content">
-                  <div class="btn-title">系统管理</div>
-                  <div class="btn-subtitle">管理员入口</div>
+                  <div class="btn-title">
+                    系统管理
+                  </div>
+                  <div class="btn-subtitle">
+                    管理员入口
+                  </div>
                 </div>
               </el-button>
             </div>

@@ -4,30 +4,50 @@
     <el-header class="main-header">
       <div class="header-content">
         <div class="logo-section">
-          <el-icon :size="24" class="logo-icon">
+          <el-icon
+            :size="24"
+            class="logo-icon"
+          >
             <Box v-if="isLost" />
             <Present v-else />
           </el-icon>
           <div class="logo-text">
-            <h1 class="logo-title">{{ title }}管理</h1>
-            <p class="logo-subtitle">{{ isLost ? 'Lost Items Management' : 'Found Items Management' }}</p>
+            <h1 class="logo-title">
+              {{ title }}管理
+            </h1>
+            <p class="logo-subtitle">
+              {{ isLost ? 'Lost Items Management' : 'Found Items Management' }}
+            </p>
           </div>
         </div>
         <div class="header-tools">
-          <el-tooltip content="返回管理面板" placement="bottom">
-            <el-button type="info" plain circle @click="goBack">
+          <el-tooltip
+            content="返回管理面板"
+            placement="bottom"
+          >
+            <el-button
+              type="info"
+              plain
+              circle
+              @click="goBack"
+            >
               <el-icon><Back /></el-icon>
             </el-button>
           </el-tooltip>
-          <el-tooltip content="刷新数据" placement="bottom">
+          <el-tooltip
+            content="刷新数据"
+            placement="bottom"
+          >
             <el-button 
               type="primary" 
               circle 
-              @click="refresh"
               :loading="loading"
               :disabled="loading"
+              @click="refresh"
             >
-              <el-icon v-if="!loading"><Refresh /></el-icon>
+              <el-icon v-if="!loading">
+                <Refresh />
+              </el-icon>
             </el-button>
           </el-tooltip>
         </div>
@@ -36,7 +56,10 @@
 
     <!-- 主内容区 -->
     <div class="main-content">
-      <el-card class="management-card" shadow="hover">
+      <el-card
+        class="management-card"
+        shadow="hover"
+      >
         <!-- 筛选区域 -->
         <div class="filter-section">
           <h3 class="section-title">
@@ -49,9 +72,9 @@
                 v-model="searchKeyword"
                 placeholder="搜索物品名称、描述或地点..."
                 clearable
+                class="search-input"
                 @input="handleSearch"
                 @clear="handleSearch"
-                class="search-input"
               >
                 <template #prefix>
                   <el-icon><Search /></el-icon>
@@ -65,11 +88,19 @@
                 <el-select
                   v-model="filterCategory"
                   placeholder="全部分类"
-                  @change="handleSearch"
                   class="filter-select"
+                  @change="handleSearch"
                 >
-                  <el-option label="全部" value=""></el-option>
-                  <el-option v-for="cat in categories" :key="cat" :label="cat" :value="cat"></el-option>
+                  <el-option
+                    label="全部"
+                    value=""
+                  />
+                  <el-option
+                    v-for="cat in categories"
+                    :key="cat"
+                    :label="cat"
+                    :value="cat"
+                  />
                 </el-select>
               </div>
               
@@ -78,12 +109,21 @@
                 <el-select
                   v-model="filterStatus"
                   placeholder="全部状态"
-                  @change="handleSearch"
                   class="filter-select"
+                  @change="handleSearch"
                 >
-                  <el-option label="全部" value=""></el-option>
-                  <el-option :label="statusLabels.pending" :value="0"></el-option>
-                  <el-option :label="statusLabels.resolved" :value="1"></el-option>
+                  <el-option
+                    label="全部"
+                    value=""
+                  />
+                  <el-option
+                    :label="statusLabels.pending"
+                    :value="0"
+                  />
+                  <el-option
+                    :label="statusLabels.resolved"
+                    :value="1"
+                  />
                 </el-select>
               </div>
               
@@ -93,27 +133,33 @@
                   v-model="filterPublisher"
                   placeholder="搜索发布者"
                   clearable
+                  class="publisher-input"
                   @input="handleSearch"
                   @clear="handleSearch"
-                  class="publisher-input"
                 />
               </div>
               
               <el-button
                 type="default"
-                @click="clearFilters"
                 :disabled="!hasFilters"
                 class="clear-btn"
                 plain
+                @click="clearFilters"
               >
                 <el-icon><Delete /></el-icon>
                 清空筛选
               </el-button>
             </div>
             
-            <div class="filter-stats" v-if="originalList.length > 0">
+            <div
+              v-if="originalList.length > 0"
+              class="filter-stats"
+            >
               <span class="stat-text">共 {{ originalList.length }} 条记录</span>
-              <span class="stat-text" v-if="hasFilters">
+              <span
+                v-if="hasFilters"
+                class="stat-text"
+              >
                 ，筛选后显示 {{ filteredList.length }} 条
               </span>
             </div>
@@ -124,44 +170,75 @@
         <div class="table-section">
           <div class="table-container">
             <el-table
-              :data="filteredList"
               v-loading="loading"
+              :data="filteredList"
               :empty-text="emptyText"
               class="data-table"
               stripe
             >
-              <el-table-column prop="title" label="物品名称" min-width="180">
+              <el-table-column
+                prop="title"
+                label="物品名称"
+                min-width="180"
+              >
                 <template #default="{ row }">
                   <div class="item-title">
                     <span class="title-text">{{ row.title }}</span>
-                    <el-tag v-if="row.status === 0" size="small" type="warning" class="status-tag">
+                    <el-tag
+                      v-if="row.status === 0"
+                      size="small"
+                      type="warning"
+                      class="status-tag"
+                    >
                       新
                     </el-tag>
                   </div>
                 </template>
               </el-table-column>
               
-              <el-table-column prop="category" label="类别" width="100">
+              <el-table-column
+                prop="category"
+                label="类别"
+                width="100"
+              >
                 <template #default="{ row }">
-                  <el-tag size="small" effect="plain" :type="getCategoryTagType(row.category)">
+                  <el-tag
+                    size="small"
+                    effect="plain"
+                    :type="getCategoryTagType(row.category)"
+                  >
                     {{ row.category || '未分类' }}
                   </el-tag>
                 </template>
               </el-table-column>
               
-              <el-table-column label="地点" width="150">
+              <el-table-column
+                label="地点"
+                width="150"
+              >
                 <template #default="{ row }">
                   <div class="location-cell">
-                    <el-icon :size="14" style="margin-right: 4px;"><Location /></el-icon>
+                    <el-icon
+                      :size="14"
+                      style="margin-right: 4px;"
+                    >
+                      <Location />
+                    </el-icon>
                     <span>{{ getLocation(row) || '未填写' }}</span>
                   </div>
                 </template>
               </el-table-column>
               
-              <el-table-column label="发布者" width="130">
+              <el-table-column
+                label="发布者"
+                width="130"
+              >
                 <template #default="{ row }">
                   <div class="publisher-cell">
-                    <el-avatar :size="24" :style="{ backgroundColor: getAvatarColor(row.userId) }">
+                    <el-avatar
+                      :size="24"
+                      :style="{ backgroundColor: getAvatarColor(row.userId) }"
+                    >
                       {{ getPublisherInitial(row) }}
                     </el-avatar>
                     <span class="publisher-name">{{ getPublisherName(row) }}</span>
@@ -169,7 +246,10 @@
                 </template>
               </el-table-column>
               
-              <el-table-column label="状态" width="100">
+              <el-table-column
+                label="状态"
+                width="100"
+              >
                 <template #default="{ row }">
                   <el-tag
                     :type="row.status === 0 ? 'warning' : 'success'"
@@ -181,37 +261,54 @@
                 </template>
               </el-table-column>
               
-              <el-table-column label="发布时间" width="180">
+              <el-table-column
+                label="发布时间"
+                width="180"
+              >
                 <template #default="{ row }">
                   <div class="time-cell">
-                    <div class="time-text">{{ formatDate(row.createTime) }}</div>
-                    <div class="time-subtext">{{ formatTime(row.createTime) }}</div>
+                    <div class="time-text">
+                      {{ formatDate(row.createTime) }}
+                    </div>
+                    <div class="time-subtext">
+                      {{ formatTime(row.createTime) }}
+                    </div>
                   </div>
                 </template>
               </el-table-column>
               
-              <el-table-column label="操作" width="150" fixed="right">
+              <el-table-column
+                label="操作"
+                width="150"
+                fixed="right"
+              >
                 <template #default="{ row }">
                   <div class="action-buttons">
-                    <el-tooltip content="查看详情" placement="top">
+                    <el-tooltip
+                      content="查看详情"
+                      placement="top"
+                    >
                       <el-button
                         type="primary"
                         size="small"
                         circle
-                        @click="viewDetail(row.id)"
                         class="action-btn"
+                        @click="viewDetail(row.id)"
                       >
                         <el-icon><View /></el-icon>
                       </el-button>
                     </el-tooltip>
                     
-                    <el-tooltip content="删除记录" placement="top">
+                    <el-tooltip
+                      content="删除记录"
+                      placement="top"
+                    >
                       <el-button
                         type="danger"
                         size="small"
                         circle
-                        @click="deleteItem(row.id)"
                         class="action-btn"
+                        @click="deleteItem(row.id)"
                       >
                         <el-icon><Delete /></el-icon>
                       </el-button>

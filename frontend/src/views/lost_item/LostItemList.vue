@@ -4,20 +4,45 @@
     <el-header class="main-header">
       <div class="header-content">
         <div class="logo-section">
-          <el-icon :size="24" class="logo-icon"><Box /></el-icon>
+          <el-icon
+            :size="24"
+            class="logo-icon"
+          >
+            <Box />
+          </el-icon>
           <div class="logo-text">
-            <h1 class="logo-title">失物列表</h1>
-            <p class="logo-subtitle">Lost Items</p>
+            <h1 class="logo-title">
+              失物列表
+            </h1>
+            <p class="logo-subtitle">
+              Lost Items
+            </p>
           </div>
         </div>
         <div class="header-tools">
-          <el-tooltip content="返回首页" placement="bottom">
-            <el-button type="info" plain circle @click="goHome">
+          <el-tooltip
+            content="返回首页"
+            placement="bottom"
+          >
+            <el-button
+              type="info"
+              plain
+              circle
+              @click="goHome"
+            >
               <el-icon><HomeFilled /></el-icon>
             </el-button>
           </el-tooltip>
-          <el-tooltip content="发布新失物" placement="bottom" v-if="currentUsername">
-            <el-button type="primary" circle @click="goNew">
+          <el-tooltip
+            v-if="currentUsername"
+            content="发布新失物"
+            placement="bottom"
+          >
+            <el-button
+              type="primary"
+              circle
+              @click="goNew"
+            >
               <el-icon><Plus /></el-icon>
             </el-button>
           </el-tooltip>
@@ -27,7 +52,10 @@
 
     <!-- 主内容区 -->
     <div class="main-content">
-      <el-card class="content-card" shadow="hover">
+      <el-card
+        class="content-card"
+        shadow="hover"
+      >
         <!-- 搜索筛选区域 -->
         <div class="filter-section">
           <h3 class="section-title">
@@ -40,9 +68,9 @@
                 v-model="searchKeyword"
                 placeholder="搜索物品名称、描述或丢失地点..."
                 clearable
+                class="search-input"
                 @keyup.enter="handleSearch"
                 @clear="handleSearch"
-                class="search-input"
               >
                 <template #prefix>
                   <el-icon><Search /></el-icon>
@@ -56,16 +84,37 @@
                 <el-select
                   v-model="filterCategory"
                   placeholder="全部分类"
-                  @change="handleSearch"
                   class="filter-select"
+                  @change="handleSearch"
                 >
-                  <el-option label="全部" value=""></el-option>
-                  <el-option label="证件" value="证件"></el-option>
-                  <el-option label="钱包" value="钱包"></el-option>
-                  <el-option label="钥匙" value="钥匙"></el-option>
-                  <el-option label="电子产品" value="电子产品"></el-option>
-                  <el-option label="个人物品" value="个人物品"></el-option>
-                  <el-option label="其他" value="其他"></el-option>
+                  <el-option
+                    label="全部"
+                    value=""
+                  />
+                  <el-option
+                    label="证件"
+                    value="证件"
+                  />
+                  <el-option
+                    label="钱包"
+                    value="钱包"
+                  />
+                  <el-option
+                    label="钥匙"
+                    value="钥匙"
+                  />
+                  <el-option
+                    label="电子产品"
+                    value="电子产品"
+                  />
+                  <el-option
+                    label="个人物品"
+                    value="个人物品"
+                  />
+                  <el-option
+                    label="其他"
+                    value="其他"
+                  />
                 </el-select>
               </div>
               
@@ -74,30 +123,45 @@
                 <el-select
                   v-model="filterStatus"
                   placeholder="全部状态"
-                  @change="handleSearch"
                   class="filter-select"
+                  @change="handleSearch"
                 >
-                  <el-option label="全部" value=""></el-option>
-                  <el-option label="未找回" :value="0"></el-option>
-                  <el-option label="已找回" :value="1"></el-option>
+                  <el-option
+                    label="全部"
+                    value=""
+                  />
+                  <el-option
+                    label="未找回"
+                    :value="0"
+                  />
+                  <el-option
+                    label="已找回"
+                    :value="1"
+                  />
                 </el-select>
               </div>
               
               <el-button
                 type="default"
-                @click="clearFilters"
                 :disabled="!hasFilters"
                 class="clear-btn"
                 plain
+                @click="clearFilters"
               >
                 <el-icon><Delete /></el-icon>
                 清空筛选
               </el-button>
             </div>
             
-            <div class="filter-stats" v-if="!loading && allList.length > 0">
+            <div
+              v-if="!loading && allList.length > 0"
+              class="filter-stats"
+            >
               <span class="stat-text">共 {{ allList.length }} 条失物信息</span>
-              <span class="stat-text" v-if="hasFilters">
+              <span
+                v-if="hasFilters"
+                class="stat-text"
+              >
                 ，筛选后显示 {{ filteredList.length }} 条
               </span>
             </div>
@@ -115,22 +179,32 @@
           
           <div class="table-container">
             <el-table
-              :data="filteredList"
               v-loading="loading"
+              :data="filteredList"
               :empty-text="emptyText"
               class="data-table"
               stripe
             >
-              <el-table-column prop="title" label="物品名称" min-width="200">
+              <el-table-column
+                prop="title"
+                label="物品名称"
+                min-width="200"
+              >
                 <template #default="{ row }">
                   <div class="item-title">
                     <div class="item-icon">
                       <el-icon><Box /></el-icon>
                     </div>
                     <div class="item-info">
-                      <div class="item-name">{{ row.title }}</div>
+                      <div class="item-name">
+                        {{ row.title }}
+                      </div>
                       <div class="item-meta">
-                        <el-tag v-if="row.status === 0" size="mini" type="warning">
+                        <el-tag
+                          v-if="row.status === 0"
+                          size="mini"
+                          type="warning"
+                        >
                           新
                         </el-tag>
                         <span class="item-time">{{ formatTime(row.lostTime) }}</span>
@@ -140,7 +214,10 @@
                 </template>
               </el-table-column>
               
-              <el-table-column label="类别" width="100">
+              <el-table-column
+                label="类别"
+                width="100"
+              >
                 <template #default="{ row }">
                   <el-tag 
                     size="small" 
@@ -152,19 +229,33 @@
                 </template>
               </el-table-column>
               
-              <el-table-column label="丢失地点" width="150">
+              <el-table-column
+                label="丢失地点"
+                width="150"
+              >
                 <template #default="{ row }">
                   <div class="location-cell">
-                    <el-icon :size="14" style="margin-right: 4px;"><Location /></el-icon>
+                    <el-icon
+                      :size="14"
+                      style="margin-right: 4px;"
+                    >
+                      <Location />
+                    </el-icon>
                     <span>{{ row.lostLocation || '未填写' }}</span>
                   </div>
                 </template>
               </el-table-column>
               
-              <el-table-column label="发布者" width="130">
+              <el-table-column
+                label="发布者"
+                width="130"
+              >
                 <template #default="{ row }">
                   <div class="publisher-cell">
-                    <el-avatar :size="28" :style="{ backgroundColor: getAvatarColor(row.username) }">
+                    <el-avatar
+                      :size="28"
+                      :style="{ backgroundColor: getAvatarColor(row.username) }"
+                    >
                       {{ getPublisherInitial(row.username) }}
                     </el-avatar>
                     <span class="publisher-name">{{ row.username || '匿名' }}</span>
@@ -172,7 +263,10 @@
                 </template>
               </el-table-column>
               
-              <el-table-column label="状态" width="100">
+              <el-table-column
+                label="状态"
+                width="100"
+              >
                 <template #default="{ row }">
                   <el-tag
                     :type="row.status === 0 ? 'warning' : 'success'"
@@ -185,16 +279,23 @@
                 </template>
               </el-table-column>
               
-              <el-table-column label="操作" width="120" fixed="right">
+              <el-table-column
+                label="操作"
+                width="120"
+                fixed="right"
+              >
                 <template #default="{ row }">
                   <div class="action-buttons">
-                    <el-tooltip content="查看详情" placement="top">
+                    <el-tooltip
+                      content="查看详情"
+                      placement="top"
+                    >
                       <el-button
                         type="primary"
                         size="small"
                         circle
-                        @click="goDetail(row.id)"
                         class="action-btn"
+                        @click="goDetail(row.id)"
                       >
                         <el-icon><View /></el-icon>
                       </el-button>

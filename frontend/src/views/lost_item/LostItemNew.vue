@@ -4,22 +4,48 @@
     <el-header class="main-header">
       <div class="header-content">
         <div class="logo-section">
-          <el-icon :size="24" class="logo-icon">
-            <component :is="isEdit ? 'Edit' : 'Plus'"></component>
+          <el-icon
+            :size="24"
+            class="logo-icon"
+          >
+            <component :is="isEdit ? 'Edit' : 'Plus'" />
           </el-icon>
           <div class="logo-text">
-            <h1 class="logo-title">{{ isEdit ? '编辑失物信息' : '发布失物信息' }}</h1>
-            <p class="logo-subtitle">{{ isEdit ? 'Edit Lost Item' : 'Publish Lost Item' }}</p>
+            <h1 class="logo-title">
+              {{ isEdit ? '编辑失物信息' : '发布失物信息' }}
+            </h1>
+            <p class="logo-subtitle">
+              {{ isEdit ? 'Edit Lost Item' : 'Publish Lost Item' }}
+            </p>
           </div>
         </div>
         <div class="header-tools">
-          <el-tooltip content="返回列表" placement="bottom">
-            <el-button type="info" plain circle @click="goToList" class="header-btn">
+          <el-tooltip
+            content="返回列表"
+            placement="bottom"
+          >
+            <el-button
+              type="info"
+              plain
+              circle
+              class="header-btn"
+              @click="goToList"
+            >
               <el-icon><List /></el-icon>
             </el-button>
           </el-tooltip>
-          <el-tooltip content="查看详情" placement="bottom" v-if="isEdit">
-            <el-button type="info" plain circle @click="goToDetail" class="header-btn">
+          <el-tooltip
+            v-if="isEdit"
+            content="查看详情"
+            placement="bottom"
+          >
+            <el-button
+              type="info"
+              plain
+              circle
+              class="header-btn"
+              @click="goToDetail"
+            >
               <el-icon><View /></el-icon>
             </el-button>
           </el-tooltip>
@@ -29,7 +55,10 @@
 
     <!-- 主内容区 -->
     <div class="main-content">
-      <el-card class="content-card" shadow="hover">
+      <el-card
+        class="content-card"
+        shadow="hover"
+      >
         <div class="form-section">
           <div class="form-container">
             <el-form 
@@ -41,7 +70,9 @@
             >
               <!-- 物品标题 -->
               <div class="form-row">
-                <div class="form-label">物品标题</div>
+                <div class="form-label">
+                  物品标题
+                </div>
                 <div class="form-field">
                   <el-form-item 
                     prop="title"
@@ -58,7 +89,9 @@
 
               <!-- 物品类别 -->
               <div class="form-row">
-                <div class="form-label">物品类别</div>
+                <div class="form-label">
+                  物品类别
+                </div>
                 <div class="form-field">
                   <el-form-item>
                     <el-select 
@@ -68,16 +101,46 @@
                       filterable
                       allow-create
                     >
-                      <el-option label="证件" value="证件"></el-option>
-                      <el-option label="钱包" value="钱包"></el-option>
-                      <el-option label="钥匙" value="钥匙"></el-option>
-                      <el-option label="电子产品" value="电子产品"></el-option>
-                      <el-option label="个人物品" value="个人物品"></el-option>
-                      <el-option label="书包" value="书包"></el-option>
-                      <el-option label="水杯" value="水杯"></el-option>
-                      <el-option label="雨伞" value="雨伞"></el-option>
-                      <el-option label="书籍" value="书籍"></el-option>
-                      <el-option label="其他" value="其他"></el-option>
+                      <el-option
+                        label="证件"
+                        value="证件"
+                      />
+                      <el-option
+                        label="钱包"
+                        value="钱包"
+                      />
+                      <el-option
+                        label="钥匙"
+                        value="钥匙"
+                      />
+                      <el-option
+                        label="电子产品"
+                        value="电子产品"
+                      />
+                      <el-option
+                        label="个人物品"
+                        value="个人物品"
+                      />
+                      <el-option
+                        label="书包"
+                        value="书包"
+                      />
+                      <el-option
+                        label="水杯"
+                        value="水杯"
+                      />
+                      <el-option
+                        label="雨伞"
+                        value="雨伞"
+                      />
+                      <el-option
+                        label="书籍"
+                        value="书籍"
+                      />
+                      <el-option
+                        label="其他"
+                        value="其他"
+                      />
                     </el-select>
                   </el-form-item>
                 </div>
@@ -85,7 +148,9 @@
 
               <!-- 丢失地点 -->
               <div class="form-row">
-                <div class="form-label">丢失地点</div>
+                <div class="form-label">
+                  丢失地点
+                </div>
                 <div class="form-field">
                   <el-form-item>
                     <el-input 
@@ -99,7 +164,9 @@
 
               <!-- 丢失时间 -->
               <div class="form-row">
-                <div class="form-label">丢失时间</div>
+                <div class="form-label">
+                  丢失时间
+                </div>
                 <div class="form-field">
                   <el-form-item>
                     <el-date-picker
@@ -117,7 +184,9 @@
 
               <!-- 物品描述 -->
               <div class="form-row">
-                <div class="form-label">物品描述</div>
+                <div class="form-label">
+                  物品描述
+                </div>
                 <div class="form-field">
                   <el-form-item>
                     <el-input
@@ -136,24 +205,24 @@
 
               <!-- 操作按钮 -->
               <div class="form-row actions-row">
-                <div class="form-label"></div>
+                <div class="form-label" />
                 <div class="form-field">
                   <div class="action-buttons">
                     <el-button 
                       type="primary" 
-                      @click="submit"
                       :loading="submitting"
                       class="submit-btn"
+                      @click="submit"
                     >
                       <el-icon class="btn-icon">
-                        <component :is="isEdit ? 'Check' : 'Plus'"></component>
+                        <component :is="isEdit ? 'Check' : 'Plus'" />
                       </el-icon>
                       {{ isEdit ? '保存修改' : '发布失物信息' }}
                     </el-button>
                     
                     <el-button 
-                      @click="goToList"
                       class="cancel-btn"
+                      @click="goToList"
                     >
                       取消
                     </el-button>

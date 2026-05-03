@@ -2,32 +2,46 @@
   <div class="auth-container">
     <!-- 背景装饰 -->
     <div class="auth-background">
-      <div class="auth-gradient"></div>
+      <div class="auth-gradient" />
       <div class="auth-decoration">
-        <div class="decoration-circle circle-1"></div>
-        <div class="decoration-circle circle-2"></div>
-        <div class="decoration-circle circle-3"></div>
+        <div class="decoration-circle circle-1" />
+        <div class="decoration-circle circle-2" />
+        <div class="decoration-circle circle-3" />
       </div>
     </div>
 
     <!-- 主内容 -->
     <div class="auth-content">
       <div class="auth-card-wrapper">
-        <el-card class="auth-card" shadow="always">
+        <el-card
+          class="auth-card"
+          shadow="always"
+        >
           <div class="card-header">
             <div class="logo-section">
-              <el-icon :size="32" class="logo-icon"><User /></el-icon>
+              <el-icon
+                :size="32"
+                class="logo-icon"
+              >
+                <User />
+              </el-icon>
               <div class="logo-text">
-                <h1 class="logo-title">创建账户</h1>
-                <p class="logo-subtitle">Create Account</p>
+                <h1 class="logo-title">
+                  创建账户
+                </h1>
+                <p class="logo-subtitle">
+                  Create Account
+                </p>
               </div>
             </div>
-            <p class="card-description">加入校园失物招领平台</p>
+            <p class="card-description">
+              加入校园失物招领平台
+            </p>
           </div>
 
           <el-form 
-            :model="registerForm" 
-            ref="registerFormRef"
+            ref="registerFormRef" 
+            :model="registerForm"
             class="auth-form"
           >
             <el-form-item prop="username">
@@ -65,10 +79,10 @@
             <el-form-item>
               <el-button
                 type="primary"
-                @click="handleRegister"
                 size="large"
                 class="submit-btn"
                 :loading="loading"
+                @click="handleRegister"
               >
                 注册
               </el-button>
@@ -78,8 +92,8 @@
               <span class="footer-text">已有账号？</span>
               <el-button 
                 type="text" 
-                @click="$router.push('/login')"
                 class="switch-btn"
+                @click="$router.push('/login')"
               >
                 立即登录
               </el-button>

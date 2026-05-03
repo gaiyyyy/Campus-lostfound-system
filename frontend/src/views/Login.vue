@@ -2,32 +2,46 @@
   <div class="auth-container">
     <!-- 背景装饰 -->
     <div class="auth-background">
-      <div class="auth-gradient"></div>
+      <div class="auth-gradient" />
       <div class="auth-decoration">
-        <div class="decoration-circle circle-1"></div>
-        <div class="decoration-circle circle-2"></div>
-        <div class="decoration-circle circle-3"></div>
+        <div class="decoration-circle circle-1" />
+        <div class="decoration-circle circle-2" />
+        <div class="decoration-circle circle-3" />
       </div>
     </div>
 
     <!-- 主内容 -->
     <div class="auth-content">
       <div class="auth-card-wrapper">
-        <el-card class="auth-card" shadow="always">
+        <el-card
+          class="auth-card"
+          shadow="always"
+        >
           <div class="card-header">
             <div class="logo-section">
-              <el-icon :size="32" class="logo-icon"><User /></el-icon>
+              <el-icon
+                :size="32"
+                class="logo-icon"
+              >
+                <User />
+              </el-icon>
               <div class="logo-text">
-                <h1 class="logo-title">欢迎回来</h1>
-                <p class="logo-subtitle">Welcome Back</p>
+                <h1 class="logo-title">
+                  欢迎回来
+                </h1>
+                <p class="logo-subtitle">
+                  Welcome Back
+                </p>
               </div>
             </div>
-            <p class="card-description">请登录您的账户</p>
+            <p class="card-description">
+              请登录您的账户
+            </p>
           </div>
 
           <el-form
-            :model="loginForm"
             ref="loginFormRef"
+            :model="loginForm"
             :rules="loginRules"
             class="auth-form"
           >
@@ -57,10 +71,10 @@
             <el-form-item>
               <el-button
                 type="primary"
-                @click="handleLogin"
                 size="large"
                 class="submit-btn"
                 :loading="loading"
+                @click="handleLogin"
               >
                 登录
               </el-button>
@@ -70,8 +84,8 @@
               <span class="footer-text">没有账号？</span>
               <el-button
                 type="text"
-                @click="$router.push('/register')"
                 class="switch-btn"
+                @click="$router.push('/register')"
               >
                 立即注册
               </el-button>
