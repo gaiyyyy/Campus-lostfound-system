@@ -325,7 +325,7 @@ const router = useRouter();
 
 /* 基础状态 */
 const activeMenu = ref("lost");
-const username = ref("");
+const username = ref(localStorage.getItem("username") || "未登录用户");
 const userId = localStorage.getItem("userId");
 const showChangeUsername = ref(false);
 const showChangePassword = ref(false);
@@ -338,8 +338,6 @@ const lostList = ref([]);
 const loading = ref(false);
 
 onMounted(() => {
-  username.value = localStorage.getItem("username") || "未登录用户";
-  
   // 检查是否有刚刚编辑招领的标记
   const justEditedFound = sessionStorage.getItem('justEditedFound') === 'true';
   
