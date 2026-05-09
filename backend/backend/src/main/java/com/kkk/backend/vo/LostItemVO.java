@@ -1,10 +1,10 @@
 package com.kkk.backend.vo;
 
 import com.kkk.backend.entity.LostItem;
-import lombok.Data;
+//import lombok.Data;
 import java.time.format.DateTimeFormatter;
 
-@Data
+//@Data
 public class LostItemVO {
 
     private Long id;
@@ -39,5 +39,93 @@ public class LostItemVO {
         vo.setUsername(username);
         vo.setIsOwner(currentUserId != null && item.getUserId() != null && item.getUserId().equals(currentUserId));
         return vo;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getLostTime() {
+        return lostTime;
+    }
+
+    public void setLostTime(String lostTime) {
+        this.lostTime = lostTime;
+    }
+
+    public String getLostLocation() {
+        return lostLocation;
+    }
+
+    public void setLostLocation(String lostLocation) {
+        this.lostLocation = lostLocation;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public Boolean getOwner() {
+        return isOwner;
+    }
+
+    public void setIsOwner(Boolean owner) {
+        isOwner = owner;
     }
 }
