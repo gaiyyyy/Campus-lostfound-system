@@ -1,1 +1,29 @@
+# Ignore local environment files that may contain secrets
+.env
+.env.local
+
+# IDE/editor
+.idea/
+.vscode/
+
+# Node
+node_modules/
+
+# Frontend build output
+frontend/dist/
+
+# Backend build output
+backend/**/target/
+
+# Logs
+logs
+*.log
+
+# OS files
+.DS_Store
+
+# Ignore IDE-specific API/credential files
+backend/.idea/
+
+# Keep other module-specific ignores in their respective .gitignore files
  

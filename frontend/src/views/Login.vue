@@ -137,7 +137,9 @@ export default {
       try {
         const res = await axios.post("/api/login", loginForm);
 
-        console.log("登录响应数据:", res);
+        if (import.meta.env && import.meta.env.MODE !== 'production') {
+          console.debug("登录响应数据:", res);
+        }
 
         // 检查是否是错误响应
         if (res.message) {
@@ -161,7 +163,9 @@ export default {
         // 保存角色信息
         if (res.role) {
           localStorage.setItem("role", res.role);
-          console.log("保存角色:", res.role);
+          if (import.meta.env && import.meta.env.MODE !== 'production') {
+            console.debug("保存角色:", res.role);
+          }
         } else {
           console.warn("登录响应中没有role字段，默认为user");
           localStorage.setItem("role", "user");
