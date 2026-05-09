@@ -359,7 +359,6 @@ const fetchMyLostItems = async () => {
     const res = await getMyLostItems();
     // 只显示当前用户自己的
     lostList.value = res.filter((item) => item.isOwner);
-    console.log("我的失物列表:", lostList.value);
   } catch (err) {
     console.error(err);
   } finally {
@@ -406,8 +405,6 @@ const fetchMyFoundItems = async () => {
     foundList.value = (res || []).filter(item => 
       item.userId === currentUserId || item.isOwner
     );
-    
-    console.log("我的招领列表:", foundList.value);
   } catch (err) {
     console.error('获取招领列表失败:', err);
     ElMessage.error('加载招领失败');
