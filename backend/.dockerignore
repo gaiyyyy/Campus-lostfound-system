@@ -1,0 +1,14 @@
+# 子目录中的 target（编译产物）
+backend/target/
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+*.iml
+
+# 环境配置
+.env
+.env.*
