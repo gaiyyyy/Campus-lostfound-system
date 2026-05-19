@@ -43,5 +43,19 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: build
+    container_name: lostfound-frontend
+    working_dir: /app
+    command: sh -c "npm ci && npm run dev -- --host 0.0.0.0 --port 80"
+    ports:
+      - "5173:80"
+    volumes:
+      - ./frontend:/app
+    restart: unless-stopped
+
 volumes:
   mysql_data:
