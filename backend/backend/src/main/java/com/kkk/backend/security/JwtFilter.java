@@ -30,9 +30,9 @@ public class JwtFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         System.out.println("[JwtFilter] 请求路径: " + path);
 
-        // 放行注册和登录接口，不检查 JWT
-        if (path.equals("/api/login") || path.equals("/api/register")) {
-            System.out.println("[JwtFilter] 放行登录/注册接口");
+        // 放行注册和登录接口，健康检查接口，指标接口，不检查 JWT
+        if (path.equals("/api/login") || path.equals("/api/register") || path.equals("/health") || path.equals("/metrics")) {
+            System.out.println("[JwtFilter] 放行登录/注册/健康检查/指标接口: " + path);
             filterChain.doFilter(request, response);
             return;
         }
