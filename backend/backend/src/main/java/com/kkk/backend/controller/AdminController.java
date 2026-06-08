@@ -1,7 +1,5 @@
 package com.kkk.backend.controller;
 
-import com.kkk.backend.dto.FoundItemDTO;
-import com.kkk.backend.dto.LostItemDTO;
 import com.kkk.backend.entity.FoundItem;
 import com.kkk.backend.entity.LostItem;
 import com.kkk.backend.entity.User;
@@ -17,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin")
