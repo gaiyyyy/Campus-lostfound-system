@@ -122,7 +122,6 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.kkk.backend.BackendApplication</mainClass>
-                    <skip>true</skip>
                 </configuration>
                 <executions>
                     <execution>

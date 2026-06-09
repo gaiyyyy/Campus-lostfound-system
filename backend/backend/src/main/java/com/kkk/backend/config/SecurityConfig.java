@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // 放行预检请求
-                .antMatchers("/api/register", "/api/login", "/health", "/metrics", "/ai/**").permitAll() // 注册/登录/健康检查/指标/AI 接口放行
+                .antMatchers("/api/register", "/api/login", "/health", "/metrics", "/actuator/health", "/ai/**").permitAll() // 注册/登录/健康检查/指标/AI 接口放行
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().disable();
