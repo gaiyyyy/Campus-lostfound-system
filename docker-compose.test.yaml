@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: ghcr.io/${GITHUB_REPOSITORY}/frontend:${VERSION:-latest}
+    image: ghcr.io/gaiyyyy/campus-lostfound-system/frontend:latest
     container_name: lostfound-frontend-test
     ports:
       - "80:80"
@@ -11,7 +11,7 @@ services:
       retries: 6
 
   backend:
-    image: ghcr.io/${GITHUB_REPOSITORY}/backend:${VERSION:-latest}
+    image: ghcr.io/gaiyyyy/campus-lostfound-system/backend:latest
     container_name: lostfound-backend-test
     ports:
       - "8080:8080"
