@@ -28,7 +28,7 @@ jobs:
           context: .
           file: ./backend/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/backend:latest
+          tags: ghcr.io/${{ github.repository_owner_lowercase }}/campus-lostfound-system/backend:latest
           # cache disabled for docker driver compatibility
 
   build-frontend:
@@ -54,7 +54,7 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/frontend:latest
+          tags: ghcr.io/${{ github.repository_owner_lowercase }}/campus-lostfound-system/frontend:latest
           # cache disabled for docker driver compatibility
 
   test-compose:
