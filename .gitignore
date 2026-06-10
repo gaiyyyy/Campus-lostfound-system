@@ -1,9 +1,13 @@
 # Ignore local environment files that may contain secrets
 .env
 .env.local
+.env.*.local
+application-prod.yml
+application-production.yml
 
 # IDE/editor
 .idea/
+*.iml
 .vscode/
 
 # Node
@@ -18,12 +22,79 @@ backend/**/target/
 # Logs
 logs
 *.log
+.settings/
+.project
+.classpath
+*.swp
+*.swo
+*~
 
 # OS files
 .DS_Store
 
-# Ignore IDE-specific API/credential files
-backend/.idea/
+# ========== 编译产物 ==========
+# Java / Maven / Gradle
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
 
-# Keep other module-specific ignores in their respective .gitignore files
- 
+# Gradle
+.gradle/
+build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+# ========== 日志文件 ==========
+*.log
+logs/
+*.log.gz
+
+# ========== 系统文件 ==========
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ========== 临时文件 ==========
+*.tmp
+*.temp
+*.cache
+*.lock
+
+# ========== 测试相关 ==========
+test-output/
+*.test
+*.fail
+
+# ========== 应用运行时生成 ==========
+*.pid
+*.seed
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# ========== 前端相关 ==========
+node_modules/
+dist/
+.npm/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ========== 备份文件 ==========
+*.bak
+*.backup
+*.orig
+*.old
