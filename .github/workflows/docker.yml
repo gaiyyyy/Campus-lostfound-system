@@ -89,25 +89,37 @@ jobs:
           set -euo pipefail
           services=(db backend frontend)
           for service in "${services[@]}"; do
-            container_id="$(docker compose -f docker-compose.test.yaml ps -q "$service")"
-            if [ -z "$container_id" ]; then
-              echo "Missing container for service: $service"
-              exit 1
-            fi
-
+            # 等待容器出现
             for attempt in $(seq 1 30); do
-              health_status="$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' "$container_id")"
-              if [ "$health_status" = "healthy" ]; then
+              container_id="$(docker compose -f docker-compose.test.yaml ps -q "$service")"
+              if [ -n "$container_id" ]; then
+                echo "Service $service container found: $container_id"
                 break
               fi
-
               if [ "$attempt" -eq 30 ]; then
-                echo "Service $service did not become healthy"
+                echo "Service $service container not created"
                 docker compose -f docker-compose.test.yaml ps
                 exit 1
               fi
+              echo "Waiting for $service container..."
+              sleep 2
+            done
 
-              sleep 5
+            # 等待健康状态
+            for attempt in $(seq 1 60); do
+              health_status="$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' "$container_id")"
+              if [ "$health_status" = "healthy" ]; then
+                echo "Service $service is healthy"
+                break
+              fi
+              if [ "$attempt" -eq 60 ]; then
+                echo "Service $service did not become healthy, current status: $health_status"
+                docker compose -f docker-compose.test.yaml ps
+                docker logs "$container_id" --tail 50
+                exit 1
+                fi
+              echo "Service $service status: $health_status, waiting..."
+              sleep 2
             done
           done
 
