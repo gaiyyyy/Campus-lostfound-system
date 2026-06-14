@@ -1,6 +1,6 @@
 [allowlist]
 description = "Ignore known leaked test secrets"
 regexes = [
-    '''sk-7ec12d82aa194ac28b567b87345d8198''',
-    '''mySecretKey123456'''
+    "sk-7ec12d82aa194ac28b567b87345d8198",
+    "mySecretKey123456"
 ]
