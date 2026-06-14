@@ -3,6 +3,7 @@ package com.kkk.backend.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -11,7 +12,8 @@ import java.util.Date;
 public class JwtUtils {
 
     // 密钥，实际项目建议放在配置文件中
-    private final String secret = "mySecretKey123456";
+    @Value("${jwt.secret:defaultSecretKey12345678901234567890}")
+    private String secret;
 
     // token 有效期，单位毫秒（这里 1 小时）
     private final long expiration = 60 * 60 * 1000;
