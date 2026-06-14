@@ -11,8 +11,8 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    // 密钥，实际项目建议放在配置文件中
-    @Value("${jwt.secret:defaultSecretKey12345678901234567890}")
+    // 密钥从配置读取，默认值在 application.yml 中统一管理
+    @Value("${jwt.secret}")
     private String secret;
 
     // token 有效期，单位毫秒（这里 1 小时）
