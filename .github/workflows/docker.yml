@@ -5,7 +5,7 @@ on:
     branches: [main, master]
 
 jobs:
-  build:
+  build-backend:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,8 +28,109 @@ jobs:
           context: .
           file: ./backend/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/backend:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          tags: ghcr.io/gaiyyyy/campus-lostfound-system/backend:latest
+          # cache disabled for docker driver compatibility
 
-      # 如果有前端，也可以在这里加上前端的构建推送
+  build-frontend:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Frontend Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ghcr.io/gaiyyyy/campus-lostfound-system/frontend:latest
+          # cache disabled for docker driver compatibility
+
+  test-compose:
+    runs-on: ubuntu-latest
+    needs:
+      - build-backend
+      - build-frontend
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Start test stack
+        run: docker compose -f docker-compose.test.yaml up -d
+
+      - name: Inspect service status
+        run: docker compose -f docker-compose.test.yaml ps
+
+      - name: Wait for healthy services
+        shell: bash
+        run: |
+          set -euo pipefail
+          services=(db backend frontend)
+          for service in "${services[@]}"; do
+            # 等待容器出现
+            for attempt in $(seq 1 30); do
+              container_id="$(docker ps -a --filter "name=lostfound-${service}-test" --format "{{.ID}}")"
+              if [ -n "$container_id" ]; then
+                echo "Service $service container found: $container_id"
+                break
+              fi
+              if [ "$attempt" -eq 30 ]; then
+                echo "Service $service container not found"
+                docker ps -a
+                exit 1
+              fi
+              echo "Waiting for $service container..."
+              sleep 2
+            done
+
+            # 等待健康状态
+            for attempt in $(seq 1 60); do
+              health_status="$(docker inspect --format='{{if .State.Health}}{{.State.Health.Status}}{{else}}{{.State.Status}}{{end}}' "$container_id")"
+              if [ "$health_status" = "healthy" ]; then
+                echo "Service $service is healthy"
+                break
+              fi
+              if [ "$attempt" -eq 60 ]; then
+                echo "Service $service did not become healthy, current status: $health_status"
+                docker ps -a
+                docker logs "$container_id" --tail 50
+                exit 1
+                fi
+              echo "Service $service status: $health_status, waiting..."
+              sleep 2
+            done
+          done
+
+      - name: Curl health endpoints
+        run: |
+          curl -fsS http://localhost:80/
+          curl -fsS http://localhost:8080/actuator/health
+
+      - name: Final status check
+        run: docker compose -f docker-compose.test.yaml ps
+
+      - name: Cleanup test stack
+        if: always()
+        run: docker compose -f docker-compose.test.yaml down -v

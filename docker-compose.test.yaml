@@ -1,0 +1,50 @@
+services:
+  frontend:
+    image: ghcr.io/gaiyyyy/campus-lostfound-system/frontend:latest
+    container_name: lostfound-frontend-test
+    ports:
+      - "80:80"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+  backend:
+    image: ghcr.io/gaiyyyy/campus-lostfound-system/backend:latest
+    container_name: lostfound-backend-test
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/lostfound_db?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: lostuser
+      SPRING_DATASOURCE_PASSWORD: lostpass
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "false"
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      JWT_SECRET: mySecretKey123456
+      JWT_EXPIRATION: 3600000
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  db:
+    image: mysql:8.0
+    container_name: lostfound-mysql-test
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: lostfound_db
+      MYSQL_USER: lostuser
+      MYSQL_PASSWORD: lostpass
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 12

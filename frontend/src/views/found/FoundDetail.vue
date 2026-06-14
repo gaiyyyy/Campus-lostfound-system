@@ -419,16 +419,7 @@ const loadFoundDetail = async () => {
   try {
     const data = await getFoundDetail(id);
 
-    // 关键调试：查看后端返回的所有字段
-    console.log("后端返回数据:", data);
-    console.log("数据类型:", typeof data);
-    console.log("所有字段:", Object.keys(data));
-    console.log("contact字段值:", data.contact);
-    console.log("contact字段类型:", typeof data.contact);
-    console.log("contact是否为空:", !data.contact);
-    console.log("contact是否为空字符串:", data.contact === "");
-    console.log("contact是否为null:", data.contact === null);
-    console.log("contact是否为undefined:", data.contact === undefined);
+    // 已移除生产环境的详细调试打印，避免泄露联系方式等敏感字段。
 
     // 尝试直接赋值一个测试值
     data.testContact = "测试联系方式123";

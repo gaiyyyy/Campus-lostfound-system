@@ -1,6 +1,24 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 
+const mockLocalStorage = (() => {
+  let store = {}
+  return {
+    getItem: vi.fn(key => (Object.prototype.hasOwnProperty.call(store, key) ? store[key] : null)),
+    setItem: vi.fn((key, value) => {
+      store[key] = String(value)
+    }),
+    removeItem: vi.fn(key => {
+      delete store[key]
+    }),
+    clear: vi.fn(() => {
+      store = {}
+    })
+  }
+})()
+
+Object.defineProperty(window, 'localStorage', { value: mockLocalStorage })
+
 const mockRouter = {
   push: vi.fn()
 }
@@ -60,6 +78,7 @@ import Profile from '@/views/Profile.vue'
 describe('Profile 页面', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mockLocalStorage.clear()
     mockRoute.path = '/profile'
     mockProfileApi.getMyLostItems.mockResolvedValue([
       { id: 1, title: '丢失的书包', isOwner: true, category: '个人物品' }

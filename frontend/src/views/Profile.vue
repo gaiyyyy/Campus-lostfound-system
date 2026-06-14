@@ -325,7 +325,7 @@ const router = useRouter();
 
 /* 基础状态 */
 const activeMenu = ref("lost");
-const username = ref("");
+const username = ref(localStorage.getItem("username") || "未登录用户");
 const userId = localStorage.getItem("userId");
 const showChangeUsername = ref(false);
 const showChangePassword = ref(false);
@@ -338,8 +338,6 @@ const lostList = ref([]);
 const loading = ref(false);
 
 onMounted(() => {
-  username.value = localStorage.getItem("username") || "未登录用户";
-  
   // 检查是否有刚刚编辑招领的标记
   const justEditedFound = sessionStorage.getItem('justEditedFound') === 'true';
   
@@ -361,7 +359,6 @@ const fetchMyLostItems = async () => {
     const res = await getMyLostItems();
     // 只显示当前用户自己的
     lostList.value = res.filter((item) => item.isOwner);
-    console.log("我的失物列表:", lostList.value);
   } catch (err) {
     console.error(err);
   } finally {
@@ -408,8 +405,6 @@ const fetchMyFoundItems = async () => {
     foundList.value = (res || []).filter(item => 
       item.userId === currentUserId || item.isOwner
     );
-    
-    console.log("我的招领列表:", foundList.value);
   } catch (err) {
     console.error('获取招领列表失败:', err);
     ElMessage.error('加载招领失败');
