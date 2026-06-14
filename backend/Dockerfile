@@ -4,11 +4,11 @@ FROM maven:3.9.6-eclipse-temurin-17 AS builder
 WORKDIR /app
 
 # 复制子目录 backend 中的 pom.xml
-COPY backend/backend/pom.xml .
+COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
 # 复制源代码
-COPY backend/backend/src ./src
+COPY src ./src
 
 # 打包
 RUN mvn clean package -DskipTests -B

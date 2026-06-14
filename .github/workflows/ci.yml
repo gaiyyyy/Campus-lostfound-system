@@ -36,7 +36,7 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          cd backend/backend
+          cd backend
           mvn clean test jacoco:report -e -X
         env:
           SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb;MODE=MySQL
@@ -49,7 +49,7 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: backend/backend/target/site/jacoco/jacoco.xml
+          files: backend/target/site/jacoco/jacoco.xml
           flags: backend
 
   frontend:
