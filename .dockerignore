@@ -1,0 +1,18 @@
+# 子目录中的 target（编译产物）
+backend/backend/target/
+frontend/node_modules/
+frontend/coverage/
+frontend/dist/
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+*.iml
+.vscode
+
+# 环境配置
+.env
+.env.*
