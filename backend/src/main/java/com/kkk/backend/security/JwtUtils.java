@@ -11,8 +11,8 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-    // 密钥从配置读取，默认值在 application.yml 中统一管理
-    @Value("${jwt.secret}")
+    // 为本地与无环境变量的测试环境提供低风险占位默认值
+    @Value("${jwt.secret:change-me-local-jwt-secret}")
     private String secret;
 
     // token 有效期，单位毫秒（这里 1 小时）
