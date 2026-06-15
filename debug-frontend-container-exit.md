@@ -20,12 +20,13 @@
 
 # 证据分析
 - 用户提供的 Actions 输出显示：`backend` 与 `db` 为 healthy，而 `frontend` 容器名 `lostfound-frontend-test` 已创建但状态为 `Exited (1)`。
+- 最新运行时日志明确给出：`nginx: [emerg] open() "/var/run/nginx.pid" failed (13: Permission denied)`。
 - `frontend/Dockerfile` 中运行阶段显式使用 `USER nginx`，说明容器主进程以非 root 身份运行。
-- `frontend/nginx.conf` 原配置监听 `80` 端口；非 root 进程在容器内绑定特权端口 `80` 是高概率启动失败点。
-- 工作流此前使用 `docker compose ps -q` 仅查询运行中的容器，服务若已退出，会表现为“等待容器出现”，掩盖真实故障。
+- `frontend/nginx.conf` 原配置将 `pid` 写到 `/var/run/nginx.pid`，与非 root 运行权限冲突，这是当前已确认的直接根因。
+- 工作流此前使用 `docker compose ps -q` 仅查询运行中的容器，服务若已退出，会表现为“等待容器出现”或长期 unhealthy，掩盖真实故障。
 
 # 假设结论
-1. `nginx` 配置与非 root 运行不兼容：已确认，监听 `80` 与 `USER nginx` 组合是最可能直接根因。
+1. `nginx` 配置与非 root 运行不兼容：已确认，`pid /var/run/nginx.pid` 是直接根因。
 2. 健康检查依赖缺失：已基本排除，镜像中已安装 `wget`。
 3. 构建产物未复制：暂无证据支持。
 4. `nginx.conf` 语法问题：暂无证据支持。
@@ -35,4 +36,6 @@
 1. 将前端容器内监听端口从 `80` 调整为 `8080`。
 2. 将前端镜像 `EXPOSE` 同步调整为 `8080`。
 3. 将测试与生产编排中的前端端口映射改为宿主机 `80` -> 容器 `8080`，并同步更新健康检查地址。
-4. 增强 GitHub Actions 日志：容器未出现或提前退出时打印对应服务日志，并使用 `ps -aq` 识别已退出容器。
+4. 将 `nginx` 的错误日志输出切到 `/dev/stderr`，便于在容器日志中直接看到启动失败原因。
+5. 将 `nginx` 的 PID 文件改到 `/tmp/nginx.pid`，避免非 root 用户写 `/var/run` 失败。
+6. 增强 GitHub Actions 日志：容器未出现或提前退出时打印对应服务日志，并使用 `ps -aq` 识别已退出容器。
