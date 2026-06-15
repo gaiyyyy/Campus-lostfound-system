@@ -91,7 +91,7 @@ jobs:
           for service in "${services[@]}"; do
             # 等待容器出现
             for attempt in $(seq 1 30); do
-              container_id="$(docker ps -a --filter "name=lostfound-${service}-test" --format "{{.ID}}")"
+              container_id="$(docker compose -f docker-compose.test.yaml ps -q "$service")"
               if [ -n "$container_id" ]; then
                 echo "Service $service container found: $container_id"
                 break
