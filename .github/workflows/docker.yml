@@ -91,7 +91,7 @@ jobs:
           for service in "${services[@]}"; do
             # 等待容器出现
             for attempt in $(seq 1 30); do
-              container_id="$(docker compose -f docker-compose.test.yaml ps -q "$service")"
+              container_id="$(docker compose -f docker-compose.test.yaml ps -aq "$service")"
               if [ -n "$container_id" ]; then
                 echo "Service $service container found: $container_id"
                 break
@@ -99,6 +99,10 @@ jobs:
               if [ "$attempt" -eq 30 ]; then
                 echo "Service $service container not found"
                 docker ps -a
+                echo "Compose status for $service:"
+                docker compose -f docker-compose.test.yaml ps -a "$service"
+                echo "Compose logs for $service:"
+                docker compose -f docker-compose.test.yaml logs --no-color "$service" || true
                 exit 1
               fi
               echo "Waiting for $service container..."
@@ -111,6 +115,12 @@ jobs:
               if [ "$health_status" = "healthy" ]; then
                 echo "Service $service is healthy"
                 break
+              fi
+              if [ "$health_status" = "exited" ] || [ "$health_status" = "dead" ]; then
+                echo "Service $service exited before becoming healthy, current status: $health_status"
+                docker ps -a
+                docker logs "$container_id" --tail 50 || true
+                exit 1
               fi
               if [ "$attempt" -eq 60 ]; then
                 echo "Service $service did not become healthy, current status: $health_status"

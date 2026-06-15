@@ -4,9 +4,9 @@ services:
     container_name: lostfound-frontend-prod
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "80:8080"
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080"]
       interval: 30s
       timeout: 10s
       retries: 3
