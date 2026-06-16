@@ -358,7 +358,7 @@ const fetchMyLostItems = async () => {
   try {
     const res = await getMyLostItems();
     // 只显示当前用户自己的
-    lostList.value = res.filter((item) => item.isOwner);
+    lostList.value = (res || []).filter((item) => item.isOwner ?? item.owner);
   } catch (err) {
     console.error(err);
   } finally {
@@ -403,7 +403,7 @@ const fetchMyFoundItems = async () => {
     // 前端过滤：只显示当前用户的（如果API返回所有用户的）
     const currentUserId = parseInt(localStorage.getItem('userId') || '0');
     foundList.value = (res || []).filter(item => 
-      item.userId === currentUserId || item.isOwner
+      item.userId === currentUserId || (item.isOwner ?? item.owner)
     );
   } catch (err) {
     console.error('获取招领列表失败:', err);
