@@ -4,7 +4,7 @@ import router from '../router'
 import { ElMessage } from 'element-plus'
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '',
+  baseURL: 'http://localhost:8080',
   withCredentials: true
 })
 

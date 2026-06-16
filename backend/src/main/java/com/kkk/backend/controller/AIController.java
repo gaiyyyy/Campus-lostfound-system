@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/ai")
+@RequestMapping("/ai")
 @CrossOrigin(origins = "http://localhost:5173")
 public class AIController {
 

@@ -50,8 +50,6 @@ services:
       target: build
     container_name: lostfound-frontend
     working_dir: /app
-    environment:
-      VITE_API_PROXY_TARGET: http://backend:8080
     command: sh -c "npm ci && npm run dev -- --host 0.0.0.0 --port 80"
     ports:
       - "5173:80"

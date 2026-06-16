@@ -1,7 +1,6 @@
 package com.kkk.backend.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kkk.backend.entity.FoundItem;
 //import lombok.Data;
 import java.time.format.DateTimeFormatter;
@@ -102,7 +101,6 @@ public class FoundItemVO {
         this.publisherName = publisherName;
     }
 
-    @JsonProperty("isOwner")
     public Boolean getOwner() {
         return isOwner;
     }
