@@ -75,7 +75,7 @@ describe('AIMatchButton 组件', () => {
     await wrapper.find('button').trigger('click')
     await flushPromises()
 
-    expect(mockPost).toHaveBeenCalledWith('/ai/match-lost/18')
+    expect(mockPost).toHaveBeenCalledWith('/api/ai/match-lost/18')
     expect(wrapper.vm.dialogVisible).toBe(true)
     expect(wrapper.vm.matchResult).toEqual({
       success: true,
@@ -97,7 +97,7 @@ describe('AIMatchButton 组件', () => {
     await wrapper.find('button').trigger('click')
     await flushPromises()
 
-    expect(mockPost).toHaveBeenCalledWith('/ai/match-found/33')
+    expect(mockPost).toHaveBeenCalledWith('/api/ai/match-found/33')
     expect(wrapper.vm.matchResult).toEqual({
       success: false,
       message: '后端服务异常'
