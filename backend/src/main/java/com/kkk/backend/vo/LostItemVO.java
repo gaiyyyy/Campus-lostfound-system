@@ -1,5 +1,6 @@
 package com.kkk.backend.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kkk.backend.entity.LostItem;
 //import lombok.Data;
 import java.time.format.DateTimeFormatter;
@@ -121,6 +122,7 @@ public class LostItemVO {
         this.contact = contact;
     }
 
+    @JsonProperty("isOwner")
     public Boolean getOwner() {
         return isOwner;
     }
