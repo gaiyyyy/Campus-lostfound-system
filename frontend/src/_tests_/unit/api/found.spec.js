@@ -44,7 +44,7 @@ describe('招领 API 测试', () => {
 
     const result = await getFoundList({ page: 1 })
     
-    expect(axiosMock.get).toHaveBeenCalledWith('/api/found_item', { params: { page: 1 } })
+    expect(axiosMock.get).toHaveBeenCalledWith('/found_item', { params: { page: 1 } })
     expect(result.items).toHaveLength(2)
   })
 
@@ -54,7 +54,7 @@ describe('招领 API 测试', () => {
 
     const result = await getFoundDetail(5)
     
-    expect(axiosMock.get).toHaveBeenCalledWith('/api/found_item/5')
+    expect(axiosMock.get).toHaveBeenCalledWith('/found_item/5')
     expect(result.title).toBe('捡到笔记本电脑')
   })
 
@@ -65,7 +65,7 @@ describe('招领 API 测试', () => {
 
     const result = await publishFoundItem(newItem)
     
-    expect(axiosMock.post).toHaveBeenCalledWith('/api/found_item', newItem)
+    expect(axiosMock.post).toHaveBeenCalledWith('/found_item', newItem)
     expect(result.success).toBe(true)
   })
 
@@ -76,7 +76,7 @@ describe('招领 API 测试', () => {
 
     const result = await updateFoundItem(5, updateData)
     
-    expect(axiosMock.put).toHaveBeenCalledWith('/api/found_item/5', updateData)
+    expect(axiosMock.put).toHaveBeenCalledWith('/found_item/5', updateData)
     expect(result.success).toBe(true)
   })
 
@@ -86,7 +86,7 @@ describe('招领 API 测试', () => {
 
     const result = await deleteFoundItem(5)
     
-    expect(axiosMock.delete).toHaveBeenCalledWith('/api/found_item/5')
+    expect(axiosMock.delete).toHaveBeenCalledWith('/found_item/5')
     expect(result.success).toBe(true)
   })
 
@@ -96,7 +96,7 @@ describe('招领 API 测试', () => {
 
     const result = await updateFoundStatus(5, 1)
     
-    expect(axiosMock.put).toHaveBeenCalledWith('/api/found_item/5/status', null, {
+    expect(axiosMock.put).toHaveBeenCalledWith('/found_item/5/status', null, {
       params: { status: 1 }
     })
     expect(result.success).toBe(true)
@@ -111,7 +111,7 @@ describe('招领 API 测试', () => {
 
     const result = await getMyFoundItems()
     
-    expect(axiosMock.get).toHaveBeenCalledWith('/api/found_item/my')
+    expect(axiosMock.get).toHaveBeenCalledWith('/found_item/my')
     expect(result).toHaveLength(2)
   })
 

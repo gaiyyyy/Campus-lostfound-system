@@ -125,8 +125,8 @@ const handleMatch = async () => {
   try {
     // 根据类型调用不同接口
     const url = props.itemType === 'lost' 
-      ? `/api/ai/match-lost/${props.itemId}`
-      : `/api/ai/match-found/${props.itemId}`
+      ? `/ai/match-lost/${props.itemId}`
+      : `/ai/match-found/${props.itemId}`
     
     const response = await axios.post(url)
     matchResult.value = response.data

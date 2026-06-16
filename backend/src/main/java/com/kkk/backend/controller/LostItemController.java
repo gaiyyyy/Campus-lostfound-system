@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/lost_item")
+@RequestMapping("/lost_item")
 public class LostItemController {
 
     @Autowired

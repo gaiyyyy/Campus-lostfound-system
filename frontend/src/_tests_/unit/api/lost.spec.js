@@ -42,7 +42,7 @@ describe('失物 API 测试', () => {
 
     const result = await getLostItemList({ page: 1 })
     
-    expect(axiosMock.get).toHaveBeenCalledWith('/api/lost_item', { params: { page: 1 } })
+    expect(axiosMock.get).toHaveBeenCalledWith('/lost_item', { params: { page: 1 } })
     expect(result.items).toHaveLength(1)
   })
 
@@ -52,7 +52,7 @@ describe('失物 API 测试', () => {
 
     const result = await getLostItemDetail(3)
     
-    expect(axiosMock.get).toHaveBeenCalledWith('/api/lost_item/3')
+    expect(axiosMock.get).toHaveBeenCalledWith('/lost_item/3')
     expect(result.title).toBe('丢失的耳机')
   })
 
@@ -63,7 +63,7 @@ describe('失物 API 测试', () => {
 
     const result = await createLostItem(newLost)
     
-    expect(axiosMock.post).toHaveBeenCalledWith('/api/lost_item', newLost)
+    expect(axiosMock.post).toHaveBeenCalledWith('/lost_item', newLost)
     expect(result.success).toBe(true)
   })
 
@@ -74,7 +74,7 @@ describe('失物 API 测试', () => {
 
     const result = await updateLostItem(3, updateData)
     
-    expect(axiosMock.put).toHaveBeenCalledWith('/api/lost_item/3', updateData)
+    expect(axiosMock.put).toHaveBeenCalledWith('/lost_item/3', updateData)
     expect(result.success).toBe(true)
   })
 
@@ -84,7 +84,7 @@ describe('失物 API 测试', () => {
 
     const result = await deleteLostItem(8)
     
-    expect(axiosMock.delete).toHaveBeenCalledWith('/api/lost_item/8')
+    expect(axiosMock.delete).toHaveBeenCalledWith('/lost_item/8')
     expect(result.success).toBe(true)
   })
 
@@ -94,7 +94,7 @@ describe('失物 API 测试', () => {
 
     const result = await updateLostItemStatus(3, 1)
     
-    expect(axiosMock.put).toHaveBeenCalledWith('/api/lost_item/3/status', null, {
+    expect(axiosMock.put).toHaveBeenCalledWith('/lost_item/3/status', null, {
       params: { status: 1 }
     })
     expect(result.success).toBe(true)
@@ -106,7 +106,7 @@ describe('失物 API 测试', () => {
 
     const result = await getMyLostItems()
     
-    expect(axiosMock.get).toHaveBeenCalledWith('/api/lost_item')
+    expect(axiosMock.get).toHaveBeenCalledWith('/lost_item')
     expect(result).toHaveLength(1)
   })
 

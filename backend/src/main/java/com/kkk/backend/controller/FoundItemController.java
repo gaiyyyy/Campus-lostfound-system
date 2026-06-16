@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/found_item")
+@RequestMapping("/found_item")
 public class FoundItemController {
 
     @Autowired
