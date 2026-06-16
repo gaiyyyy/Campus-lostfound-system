@@ -16,10 +16,8 @@ RUN mvn clean package -DskipTests -B
 # 第二阶段：运行阶段
 FROM eclipse-temurin:17-jre-alpine
 
-# 安装健康检查依赖，并创建非 root 用户
-RUN apk add --no-cache wget \
-    && addgroup -S spring \
-    && adduser -S spring -G spring
+# 创建非 root 用户
+RUN addgroup -S spring && adduser -S spring -G spring
 
 USER spring:spring
 

@@ -35,27 +35,15 @@ jobs:
           cache: maven
 
       - name: Run tests with coverage
-        working-directory: backend
-        run: mvn -B clean test jacoco:report -e
+        run: |
+          cd backend
+          mvn clean test jacoco:report -e -X
         env:
-          SPRING_PROFILES_ACTIVE: test
-          SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1
+          SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb;MODE=MySQL
           SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
           SPRING_DATASOURCE_USERNAME: sa
-          SPRING_DATASOURCE_PASSWORD: ""
           SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
           SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.H2Dialect
-          JWT_SECRET: change-me-ci-jwt-secret
-          AI_API_KEY: dummy-ci-key
-
-      - name: Upload backend test reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: backend-test-reports
-          path: |
-            backend/target/surefire-reports
-            backend/target/site/jacoco
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
